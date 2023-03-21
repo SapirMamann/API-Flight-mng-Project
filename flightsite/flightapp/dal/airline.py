@@ -15,6 +15,7 @@ class AirlineDal(BaseDAL):
             user=user,
             name=name,
             country=country)
+        
         return new_airline
 
 
@@ -23,7 +24,7 @@ class AirlineDal(BaseDAL):
     
 
     def get_by_id(self, airline_id):
-        pass
+        return AirlineCompany.objects.get(id=airline_id) 
 
 
     def update_by_id(self, airline_id: int, data): 
@@ -34,7 +35,6 @@ class AirlineDal(BaseDAL):
         airline.country = Country.objects.get(id=data['country_id'])
         airline.save()
         #add logging
-
 
     
     def delete():

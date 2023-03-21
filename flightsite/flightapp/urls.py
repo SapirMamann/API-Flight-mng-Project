@@ -1,8 +1,12 @@
 from django.urls import path, include
+from rest_framework.urlpatterns import format_suffix_patterns
+
 from .views import *
 
 
 urlpatterns = [
-    path('airline/<str:airline_id>/', AirlineCUD.as_view(), name='airline_crud'),
-    path('airline/', AirlineCreate.as_view(), name='airline_create'),
+    path('airlines/', AirlineList.as_view(), name='airline-list'),
+    path('airlines/<str:airline_id>/', AirlineDetail.as_view(), name='airline-detail'),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)

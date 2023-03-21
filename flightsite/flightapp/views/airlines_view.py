@@ -1,26 +1,88 @@
-from rest_framework.views  import APIView, Response
+from rest_framework.views  import APIView, Response, status
 from ..dal.airline import AirlineDal
 from ..logics.airline import AirlineLogic
 from ..models import AirlineCompany
 from ..serializers.airline import AirlineCompanySerializer
 
-class AirlineCUD(APIView):
-    serializer_class = AirlineCompanySerializer
+
+class AirlineList(APIView):
+    def post(self, request, format=None):
+        """
+        I can do this differently (like in my notebook) CHECK THIS.
+        display the relevant form to admins in React - react will send an HTTP POST request to this endpoint
+        Create a new airline company
+        """
+        airline_user_id = request.data['user']
+        airline_name = request.data['name']
+        airline_country_id = request.data['country']
+
+        try:
+            AirlineLogic.create(self, airline_user_id, airline_name, airline_country_id)
+            
+        except Exception as e:
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(status=status.HTTP_201_CREATED)
+    
+
+    def get(self, request, format=None):
+        """
+        List of all Airline companies (displays only names)
+        """
+        try:
+            airlines = AirlineDal.get_all(self)
+            serializer = AirlineCompanySerializer(airlines, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:  #maybe another except 
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+    
+
+class AirlineDetail(APIView):
+    # serializer_class = AirlineCompanySerializer()     #should i use this in here?
        
-    def get(self, airline_id):
+    def get(self, request, airline_id, format=None):
         """
         Getting a specific airline
         """
         try:
-            airline = AirlineLogic.get_by_id(airline_id)
-            data = self.serializer_class(airline).data
+            logic = AirlineLogic()
+            airline = logic.get_by_id(airline_id)
         except Exception as e:
-            return Response(str(e), status=400)
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(data, status=200)
+        serializer = AirlineCompanySerializer(airline)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-    def delete(self, airline_id):
+    def put(self, request, airline_id, format=None):
+        """
+        Updating a specific airline
+        """
+        logic = AirlineLogic()
+        airline = logic.get_by_id(airline_id)
+
+        serializer = AirlineCompanySerializer(airline, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
+    
+
+
+        # try:
+        #     serializer = AirlineCompanySerializer(data=recieved_data)
+
+        #     if serializer.is_valid():
+        #         AirlineDal.update(airline_id, serializer.validated_data)
+
+        #         # return Response(serializer.data, status=200)
+        # except Exception as e:
+        #     pass
+    
+
+    def delete(self, request, airline_id, format=None):
         """
         Delete a specific airline
         """
@@ -33,69 +95,4 @@ class AirlineCUD(APIView):
         return Response(status=204)
     
 
-    def put(self, request, airline_id):
-        """
-        Updating a specific airline
-        """
         
-        airline_user_id = request.data['user']
-        airline_name = request.data['name']
-        airline_country_id = request.data['country']
-
-            
-        recieved_data = {
-            "name": airline_name,
-            "user_id": airline_user_id,
-            "country_id": airline_country_id
-        }
-
-        try:
-            serializer = AirlineCompanySerializer(data=recieved_data)
-
-            if serializer.is_valid():
-                AirlineDal.update(airline_id, serializer.validated_data)
-
-                # return Response(serializer.data, status=200)
-        except Exception as e:
-            pass
-
-
-        return Response(serializer.errors, status=400)
-
-        
-
-
-class AirlineCreate(APIView):
-    def get(self, request):
-        """
-        if i need to display all airlines exist, should this be in here????????????
-        """
-        try:
-            airlines = AirlineDal.get_all(self)
-            serializer = AirlineCompanySerializer(airlines, many=True)
-
-            return Response(serializer.data, status=200)
-
-        except Exception as e:
-            return Response(str(e), status=400)
-
-    
-
-    def post(self, request):
-        """
-        Create a new airline
-        display the relevant form to admins in React - react will send an HTTP POST request to this endpoint
-        """
-        # print(request.data['name'])
-
-        airline_user_id = request.data['user']
-        airline_name = request.data['name']
-        airline_country_id = request.data['country']
-
-        try:
-            AirlineLogic.create(self, airline_user_id, airline_name, airline_country_id)
-            
-        except Exception as e:
-            return Response(str(e), status=400)
-
-        return Response(status=201)
