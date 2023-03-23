@@ -3,7 +3,7 @@ from ..models import *
 
 
 class AirlineDal(BaseDAL):
-    def __init__(self): #is this neccassary?
+    def __init__(self):     #is this neccassary?
         super().__init__()
 
 
@@ -39,3 +39,4 @@ class AirlineDal(BaseDAL):
     
     def delete():
         pass
+    
