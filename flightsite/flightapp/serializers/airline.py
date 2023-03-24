@@ -1,5 +1,7 @@
 from rest_framework import serializers
+
 from ..models import AirlineCompany
+
 
 class AirlineCompanySerializer(serializers.ModelSerializer):
     class Meta:

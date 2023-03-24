@@ -1,0 +1,2 @@
+class BaseLogic():
+    pass
