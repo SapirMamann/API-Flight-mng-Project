@@ -31,5 +31,3 @@ class AirlineLogic():
         Create a new airline- based on information provided by user
         """
         return self.dal.create(user_id, name, country_id)
-        
-        
