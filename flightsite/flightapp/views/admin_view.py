@@ -1,15 +1,19 @@
 from rest_framework import mixins, generics
+from django.contrib.auth.mixins import PermissionRequiredMixin  #inherit for class 
+from django.contrib.auth.decorators import permission_required  #decorator for function
 
 from ..logics.admin import AdminLogic
 from ..serializers.admin import AdminSerializer
 
 
 class AdminsList(generics.GenericAPIView,
+                   PermissionRequiredMixin,
                    mixins.CreateModelMixin, 
                    mixins.ListModelMixin):
     """
     Handles POST and GET requests
     """
+    # permission_required = ()
     logic = AdminLogic()
     queryset = logic.get_all()
     serializer_class = AdminSerializer

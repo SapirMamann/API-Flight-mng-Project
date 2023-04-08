@@ -1,10 +1,34 @@
 from rest_framework import mixins, generics
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 
 from ..logics.country import CountryLogic
 from ..serializers.country import CountrySerializer
 
 
+
+
+# from rest_framework.permissions import BasePermission
+
+# class GroupPermission(BasePermission):
+#     def has_permission(self, request, view):
+#         required_groups = getattr(view, 'required_groups', {})
+#         user_groups = request.user.groups.all()
+#         return any(group in user_groups for group in required_groups)
+
+# # class MyView(APIView):
+# #     def get(self, request):
+# #         # perform some action that requires admin privileges
+# #         return Response({'message': 'You have admin privileges!'})
+        
+#         permission_classes = [GroupPermission]
+#         required_groups = ['admins']
+from rest_framework import generics, permissions
+
+
+
+
 class CountriesList(generics.GenericAPIView, 
+                    PermissionRequiredMixin,
                     mixins.ListModelMixin, 
                     mixins.CreateModelMixin):
     """
@@ -13,6 +37,9 @@ class CountriesList(generics.GenericAPIView,
     logic = CountryLogic()
     queryset = logic.get_all()
     serializer_class = CountrySerializer
+    # permission_classes = [permissions.IsAuthenticated]
+    permission_required = 'can_add_country'
+    raise_exception = True
 
     def post(self, request, *args, **kwargs):
         """
@@ -21,12 +48,12 @@ class CountriesList(generics.GenericAPIView,
         """
         return self.create(request, *args, **kwargs)
 
-
     def get(self, request, *args, **kwargs):
         """
         works 24.03 15:45
         List of all countries.
         """
+
         return self.list(request, *args, **kwargs)
     
 

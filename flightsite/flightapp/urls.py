@@ -1,24 +1,21 @@
 from django.urls import path
 # from rest_framework.urlpatterns import format_suffix_patterns
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView,
+                                            TokenBlacklistView)
 
 from .views import *
-from .views.admin_view import *
-from .views.country_view import *
-from .views.customer_view import *
-from .views.flight_view import *
-from .views.user_view import *
-from .views.user_role_view import *
+
 
 urlpatterns = [
+    #permissions
+    path('permissions/', PermissionList.as_view(), name='permission-list'),
+
     #authentication
     path('auth/login/', TokenObtainPairView.as_view(), name ='auth_login'),     #name='token_obtain_pair'
     path('auth/refresh/', TokenRefreshView.as_view(), name ='auth_token_refresh'),      #name='token_refresh'
     path('auth/register/', RegisterView.as_view(), name='register'),
-    path('auth/logout/', LogoutView.as_view(), name='logout'),
+    path('auth/logout/', TokenBlacklistView.as_view(), name='logout'),
 
     #admins
     path('admins/', AdminsList.as_view(), name='admins-list'),
@@ -28,13 +25,12 @@ urlpatterns = [
     path('users/', UsersList.as_view(), name='users-list'),
     path('users/<int:pk>/', UserDetail.as_view(), name='user-detail'),
 
+    #groupes
+    path('groups/', GroupListCreate.as_view(), name='group-list-create'),
+
     #countries
     path('countries/', CountriesList.as_view(), name='countries-list'),
     path('countries/<int:pk>/', CountryDetail.as_view(), name='country-detail'),
-
-    #user roles
-    path('user_roles/', UserRolesList.as_view(), name='user-roles-list'),
-    path('user_roles/<int:pk>/', UserRoleDetail.as_view(), name='user-role-detail'),
 
     #airlines
     path('airlines/', AirlinesList.as_view(), name='airlines-list'),
@@ -45,8 +41,8 @@ urlpatterns = [
     path('flights/<int:pk>/', FlightDetail.as_view(), name='flight-detail'),
     
     #tickets
-    # path('tickets/', TicketsList.as_view(), name='tickets-list'),
-    # path('tickets/<int:pk>/', TicketDetail.as_view(), name='ticket-detail'),
+    path('tickets/', TicketsList.as_view(), name='tickets-list'),
+    path('tickets/<int:pk>/', TicketDetail.as_view(), name='ticket-detail'),
 
     #customers
     path('customers/', CustomersList.as_view(), name='customers-list'),

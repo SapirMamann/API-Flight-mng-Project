@@ -1,4 +1,6 @@
 from rest_framework import mixins, generics
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
+from rest_framework.permissions import IsAdminUser
 
 from ..logics.user import UserLogic
 from ..models import User
@@ -6,19 +8,22 @@ from ..serializers.user import UserSerializer
 
 
 class UsersList(generics.GenericAPIView,
-                   mixins.CreateModelMixin, 
-                   mixins.ListModelMixin):
+                PermissionRequiredMixin,
+                mixins.CreateModelMixin, 
+                mixins.ListModelMixin):
     """
     Handles POST and GET requests
     """
     logic = UserLogic()
     queryset = logic.get_all()
     serializer_class = UserSerializer
+    # permission_classes = [IsAdminUser]
 
     def post(self, request, *args, **kwargs):
         """
+        for admin use
         works 24.03 17:24
-        Create a new user. 
+        Create a new user.
         """
         return self.create(request, *args, **kwargs)
     

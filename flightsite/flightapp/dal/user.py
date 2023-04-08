@@ -36,38 +36,3 @@ class UserDal(BaseDAL):
     
     def delete():
         pass
-    
-
-
-class FlightDal(BaseDAL):
-    def __init__(self):     #is this neccassary?
-        super().__init__()
-
-
-    def create(self, user_id, name, country_id):
-        """
-        Add flight.
-        """
-        pass
-
-
-    def get_all(self):
-        pass
-    
-
-    def get_by_id(self, airline_id):
-        pass
-
-
-    def update_by_id(self, airline_id: int, data): 
-        """
-        Update a flight by passing its ID
-        """
-        pass
-
-
-    def delete():
-        """
-        Delete a flight
-        """
-        pass

@@ -1,11 +1,10 @@
 from django.contrib import admin
 
-from .models import (Country, UserRoles, User, Customer, 
+from .models import (Country, User, Customer, 
     Administrator, AirlineCompany, Flight, Ticket)
 
 
 admin.site.register(Country)
-admin.site.register(UserRoles)
 admin.site.register(User)
 admin.site.register(Customer)
 admin.site.register(Administrator)
