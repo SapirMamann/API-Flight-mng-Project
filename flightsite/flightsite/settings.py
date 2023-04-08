@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'flightapp.apps.FlightappConfig',
+    'corsheaders',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -93,6 +94,10 @@ SIMPLE_JWT = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -102,6 +107,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'flightsite.urls'
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
@@ -128,7 +135,7 @@ WSGI_APPLICATION = 'flightsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'flights_db',
+        'NAME': 'flights_db3',
         'USER': 'root',
         'PASSWORD': 'admin1234',
         'HOST': 'localhost',

@@ -1,5 +1,10 @@
-***********ADD TICKET VIEW
+*******validators
+**********react
+******permissions
+***********Craete a ready to use data
+******tests
 
+to book a flight: LoginRequiredMixin
 
 Views will be separated like this:
 Auth view:

@@ -9,7 +9,7 @@ class AirlineCompanySerializer(serializers.ModelSerializer):
         fields = ('name','id',)     #delete id 
         
 
-    def validate_name(self, value):
-        if len(value) < 3 or len(value) > 100:
-            raise serializers.ValidationError('Name has to be between 2 and 100.')
-        return value
+    def validate_name(self, name):
+        if len(name) < 2 or len(name) > 100:
+            raise serializers.ValidationError('Name length must be between 3 to 99.')
+        return name

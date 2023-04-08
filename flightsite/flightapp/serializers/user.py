@@ -9,9 +9,10 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'     #delete id 
         
 
-    # def validate(self, attrs):
-    #     pass
+    def validate_username(self, username):
+        if len(username) < 2 or len(username) > 100:
+            raise serializers.ValidationError("Username length must be between 3 to 99.")        #i can raise a better error message
+        # elif username contains bad words
+        return username
     
-    # def validate_useranem():
-    #     # ...
-    #     pass
+    
