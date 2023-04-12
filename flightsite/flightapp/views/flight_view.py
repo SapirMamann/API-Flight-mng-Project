@@ -1,5 +1,6 @@
 from rest_framework import mixins, generics
 from rest_framework.views import Response
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 
 from ..serializers.flight import FlightSerializer 
 from ..logics.flight import FlightLogic
@@ -7,14 +8,16 @@ from ..models import Flight
 
 
 class FlightsList(generics.GenericAPIView, 
-                 mixins.ListModelMixin, 
-                 mixins.CreateModelMixin):
+                  PermissionRequiredMixin,
+                  mixins.ListModelMixin, 
+                  mixins.CreateModelMixin):
     """
     Handles POST and GET requests.
     """
     logic = FlightLogic()
     queryset = logic.get_all()
     serializer_class = FlightSerializer
+    permission_required = 'add_flight'
 
     def post(self, request, *args, **kwargs):
         """

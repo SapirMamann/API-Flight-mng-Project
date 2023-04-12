@@ -7,9 +7,9 @@ from ..serializers.admin import AdminSerializer
 
 
 class AdminsList(generics.GenericAPIView,
-                   PermissionRequiredMixin,
-                   mixins.CreateModelMixin, 
-                   mixins.ListModelMixin):
+                 PermissionRequiredMixin,
+                 mixins.CreateModelMixin, 
+                 mixins.ListModelMixin):
     """
     Handles POST and GET requests
     """

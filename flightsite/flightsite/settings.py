@@ -36,8 +36,8 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
+    'django.contrib.auth',      #contains the core of the authentication framework, and its default models.
+    'django.contrib.contenttypes',      #Django content type system, which allows permissions to be associated with models you create.
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -49,15 +49,18 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [     #list of permission classes that will be applied globally to all views in your Django REST Framework API.
+        'rest_framework.permissions.IsAuthenticated',       #only authenticated users can access the API.
+    ],
 }
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=90),
-    "ROTATE_REFRESH_TOKENS": True,      #if user stays logged in, refresh the token(with a new access token) automatically and dont log him out
-    "BLACKLIST_AFTER_ROTATION": True,      #the last token will be blacklisted so no one can use the old token again(it saves the old tokens in db blacklist table) 
+    "ROTATE_REFRESH_TOKENS": True,      #if user stays logged in, refresh the token(with a new access token) automatically and dont log him out.
+    "BLACKLIST_AFTER_ROTATION": True,      #the last token will be blacklisted so no one can use the old token again(it saves the old tokens in db blacklist table).
     "UPDATE_LAST_LOGIN": False,
 
     "ALGORITHM": "HS256",
@@ -185,7 +188,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'flightapp.User'
+AUTH_USER_MODEL = 'flightapp.User'      #use our custom user model (that inherits from AbstractUser) instead of the default one.
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

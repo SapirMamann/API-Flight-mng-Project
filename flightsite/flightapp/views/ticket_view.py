@@ -8,8 +8,8 @@ from ..models import Flight
 
 
 class TicketsList(generics.GenericAPIView, 
-                    mixins.ListModelMixin, 
-                    mixins.CreateModelMixin):
+                  mixins.ListModelMixin, 
+                  mixins.CreateModelMixin):
     """
     Handles POST and GET requests
     """

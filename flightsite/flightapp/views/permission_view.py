@@ -1,8 +1,10 @@
 from django.contrib.auth.models import Permission
+from django.contrib.auth.mixins import UserPassesTestMixin
 from rest_framework import generics
+from django.http import HttpResponse
 from rest_framework.permissions import BasePermission
-from ..serializers.permission import PermissionSerializer
 
+from ..serializers.permission import PermissionSerializer
 
 
 # class IsObjectOwner(BasePermission):
@@ -30,10 +32,16 @@ from ..serializers.permission import PermissionSerializer
 
 
 
-class PermissionList(generics.ListAPIView):
+class PermissionList(generics.ListAPIView,
+                     UserPassesTestMixin,):
     """
     List of all permissions.
     The permission system is used by the Django admin site and are automatically created for each model (taken from 'Permission' description).
     """
+    # def test_func(self):
+    #     return self.request.user.has_perm('flightapp.can_view_perms')
+    
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
+
+

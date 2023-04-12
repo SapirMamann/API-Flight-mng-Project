@@ -5,9 +5,9 @@ from django.contrib.auth.models import Group
 from ..serializers.group import GroupSerializer
 
 
-class GroupListCreate(mixins.ListModelMixin, 
-                      mixins.CreateModelMixin, 
-                      generics.GenericAPIView):
+class GroupListCreate(generics.GenericAPIView,
+                      mixins.ListModelMixin, 
+                      mixins.CreateModelMixin):
     """
     add logics = ...
     Handles POST and GET requests
