@@ -1,4 +1,6 @@
-from rest_framework import mixins, generics
+from rest_framework import mixins, generics, permissions
+from rest_framework.response import Response
+
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from rest_framework.permissions import IsAdminUser
 
@@ -14,13 +16,16 @@ class UsersList(generics.GenericAPIView,
     """
     Handles POST and GET requests
     """
+    permission_classes = [permissions.DjangoModelPermissions]
+    permission_required = 'flightapp.view_user'
+
     logic = UserLogic()
     queryset = logic.get_all()
     serializer_class = UserSerializer
-    # permission_classes = [IsAdminUser]
 
     def post(self, request, *args, **kwargs):
         """
+        maybe i dont need this because im using auth register
         for admin use
         works 24.03 17:24
         Create a new user.
@@ -33,6 +38,11 @@ class UsersList(generics.GenericAPIView,
         works 24.03 17:17
         List of all users.
         """
+        print(f"User permissions: {request.user.get_all_permissions()}")
+        print(f"User permissions: {request.user.has_perm('flightapp.view_user')}")
+        # if request.user.has_perm('flightapp.view_user') is False:
+        #     return Response('okkkkkk', status=403)
+
         return self.list(request, *args, **kwargs)
 
 

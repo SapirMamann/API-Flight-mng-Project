@@ -1,34 +1,14 @@
-from rest_framework import mixins, generics
+from rest_framework import mixins, generics, permissions
+from rest_framework.permissions import BasePermission
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
+from django.utils.decorators import method_decorator
 
 from ..logics.country import CountryLogic
 from ..serializers.country import CountrySerializer
-
-
-
-
-# from rest_framework.permissions import BasePermission
-
-# class GroupPermission(BasePermission):
-#     def has_permission(self, request, view):
-#         required_groups = getattr(view, 'required_groups', {})
-#         user_groups = request.user.groups.all()
-#         return any(group in user_groups for group in required_groups)
-
-# # class MyView(APIView):
-# #     def get(self, request):
-# #         # perform some action that requires admin privileges
-# #         return Response({'message': 'You have admin privileges!'})
-        
-#         permission_classes = [GroupPermission]
-#         required_groups = ['admins']
-from rest_framework import generics, permissions
-
-
+from ..logics.permission import user_permissions
 
 
 class CountriesList(generics.GenericAPIView, 
-                    PermissionRequiredMixin,
                     mixins.ListModelMixin, 
                     mixins.CreateModelMixin):
     """
@@ -37,23 +17,21 @@ class CountriesList(generics.GenericAPIView,
     logic = CountryLogic()
     queryset = logic.get_all()
     serializer_class = CountrySerializer
-    # permission_classes = [permissions.IsAuthenticated]
-    permission_required = 'can_add_country'
-    raise_exception = True
 
+    @method_decorator(user_permissions('add_country'))
     def post(self, request, *args, **kwargs):
         """
-        works 24.03 15:50
+        works 12.04 14:41
         Add country. 
         """
         return self.create(request, *args, **kwargs)
-
+    
+    @method_decorator(user_permissions('can_view_countries'))
     def get(self, request, *args, **kwargs):
         """
-        works 24.03 15:45
+        works 12.04 14:41
         List of all countries.
         """
-
         return self.list(request, *args, **kwargs)
     
 
@@ -69,25 +47,26 @@ class CountryDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = CountrySerializer
 
+    @method_decorator(user_permissions('view_country'))
     def get(self, request, *args, **kwargs):
         """
-        works 24.03 15:45
         Getting a specific country.
         """
         return self.retrieve(request, *args, **kwargs)
 
 
+    @method_decorator(user_permissions('change_country'))
     def put(self, request, *args, **kwargs):
         """
-        works 24.03 15:50
+        works 12.04 15:50
         Updating a specific country.
         """
         return self.update(request, *args, **kwargs)
     
 
+    @method_decorator(user_permissions('delete_country'))
     def delete(self, request, *args, **kwargs):
         """
-        works 24.03 16:00
         Delete a specific country.
         """
         return self.destroy(request, *args, **kwargs)

@@ -1,11 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 
 
 class Country(models.Model):
     name = models.CharField(max_length=30, unique=True)
-    
+
+    class Meta:
+        permissions = [
+            ("can_view_countries", "Can view countries")
+        ]
+
     def __str__(self):
         return self.name
 
@@ -18,6 +23,8 @@ class Country(models.Model):
 
 
 class UserGroup(Group):
+    # my_permissions = models.ManyToManyField(Permission, verbose_name='my_permissions', blank=True)
+
     class Meta:
         proxy = True        #UserGroup doesn't create a new database table, but instead creates a new Python class that represents Group.
 
@@ -38,7 +45,12 @@ class User(AbstractUser):
     username = models.CharField(max_length=50, unique=True)
     password = models.TextField(max_length=250)
     email = models.EmailField(max_length=30, unique=True)
-    groups = models.ForeignKey(UserGroup, on_delete=models.CASCADE, default='1')
+    user_role = models.ForeignKey(UserGroup, on_delete=models.CASCADE, default='1', related_name='user_role')
+
+    # class Meta:
+    #     permissions = [
+    #         ("view_user_test", "view user test"),
+    #     ]
 
     def __str__(self):
         return self.username

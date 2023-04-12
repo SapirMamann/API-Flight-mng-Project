@@ -10,6 +10,7 @@ from .views import *
 urlpatterns = [
     #permissions
     path('permissions/', PermissionList.as_view(), name='permission-list'),
+    # path('vlad/', permission_view.vladtest(), name='permission-list'),
 
     #authentication
     path('auth/login/', TokenObtainPairView.as_view(), name ='auth_login'),     #name='token_obtain_pair'

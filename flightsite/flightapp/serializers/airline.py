@@ -6,7 +6,7 @@ from ..models import AirlineCompany
 class AirlineCompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = AirlineCompany
-        fields = ('name','id',)     #delete id 
+        fields = '__all__' #('name','id',)     #delete id 
         
 
     def validate_name(self, name):

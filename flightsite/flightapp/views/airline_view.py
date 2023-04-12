@@ -1,10 +1,12 @@
 from rest_framework import mixins, generics
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 
 from ..logics.airline import AirlineLogic
 from ..serializers.airline import AirlineCompanySerializer
 
 
 class AirlinesList(generics.GenericAPIView,
+                   PermissionRequiredMixin,
                    mixins.CreateModelMixin, 
                    mixins.ListModelMixin):
     """
@@ -13,6 +15,8 @@ class AirlinesList(generics.GenericAPIView,
     logic = AirlineLogic()
     queryset = logic.get_all()
     serializer_class = AirlineCompanySerializer
+    permission_required = 'add_airlinecompany'
+    
 
     def post(self, request, *args, **kwargs):
         """
