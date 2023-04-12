@@ -4,6 +4,9 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMi
 from ..logics.airline import AirlineLogic
 from ..serializers.airline import AirlineCompanySerializer
 
+from django.utils.decorators import method_decorator
+from ..logics.permission import user_permissions
+
 
 class AirlinesList(generics.GenericAPIView,
                    PermissionRequiredMixin,

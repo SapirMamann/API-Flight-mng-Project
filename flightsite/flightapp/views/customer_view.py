@@ -4,6 +4,9 @@ from ..logics.customer import CustomerLogic
 from ..serializers.customer import CustomerSerializer
 
 
+from django.utils.decorators import method_decorator
+from ..logics.permission import user_permissions
+
 class CustomersList(generics.GenericAPIView,
                    mixins.CreateModelMixin, 
                    mixins.ListModelMixin):

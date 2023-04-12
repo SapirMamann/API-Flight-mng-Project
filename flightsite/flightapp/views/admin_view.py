@@ -6,6 +6,9 @@ from ..logics.admin import AdminLogic
 from ..serializers.admin import AdminSerializer
 
 
+from django.utils.decorators import method_decorator
+from ..logics.permission import user_permissions
+
 class AdminsList(generics.GenericAPIView,
                  PermissionRequiredMixin,
                  mixins.CreateModelMixin, 

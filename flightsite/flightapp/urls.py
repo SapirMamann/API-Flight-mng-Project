@@ -10,7 +10,6 @@ from .views import *
 urlpatterns = [
     #permissions
     path('permissions/', PermissionList.as_view(), name='permission-list'),
-    # path('vlad/', permission_view.vladtest(), name='permission-list'),
 
     #authentication
     path('auth/login/', TokenObtainPairView.as_view(), name ='auth_login'),     #name='token_obtain_pair'
@@ -28,6 +27,7 @@ urlpatterns = [
 
     #groupes
     path('groups/', GroupListCreate.as_view(), name='group-list-create'),
+    path('groups/<int:pk>/', GroupDetail.as_view(), name='group-detail'),
 
     #countries
     path('countries/', CountriesList.as_view(), name='countries-list'),

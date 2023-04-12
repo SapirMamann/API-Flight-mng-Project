@@ -1,3 +1,5 @@
+i should handle situation where authorization key is not provided
+handle where i delete things that doesnt exist
 *******validators
 **********react
 ******permissions

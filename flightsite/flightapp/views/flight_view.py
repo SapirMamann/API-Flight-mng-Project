@@ -7,6 +7,9 @@ from ..logics.flight import FlightLogic
 from ..models import Flight
 
 
+from django.utils.decorators import method_decorator
+from ..logics.permission import user_permissions
+
 class FlightsList(generics.GenericAPIView, 
                   PermissionRequiredMixin,
                   mixins.ListModelMixin, 

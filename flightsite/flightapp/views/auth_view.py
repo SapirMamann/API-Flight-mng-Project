@@ -10,6 +10,9 @@ from ..serializers.user import UserSerializer
 from ..models import User 
 
 
+from django.utils.decorators import method_decorator
+from ..logics.permission import user_permissions
+
 class RegisterView(generics.CreateAPIView):     #why we dont use self here?
     queryset = User.objects.all()
     # permission_classes = (AllowAny,)
