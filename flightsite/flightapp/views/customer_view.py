@@ -1,11 +1,10 @@
 from rest_framework import mixins, generics
+from django.utils.decorators import method_decorator
 
 from ..logics.customer import CustomerLogic
 from ..serializers.customer import CustomerSerializer
-
-
-from django.utils.decorators import method_decorator
 from ..logics.permission import user_permissions
+
 
 class CustomersList(generics.GenericAPIView,
                    mixins.CreateModelMixin, 
@@ -17,17 +16,17 @@ class CustomersList(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = CustomerSerializer
 
+    @method_decorator(user_permissions('add_customer'))
     def post(self, request, *args, **kwargs):
         """
-        works 24.03 16:25
         Create a customer. 
         """
         return self.create(request, *args, **kwargs)
 
 
+    @method_decorator(user_permissions('view_customer'))
     def get(self, request, *args, **kwargs):
         """
-        works 24.03 16:20
         List of all customers.
         """
         return self.list(request, *args, **kwargs)
@@ -45,25 +44,25 @@ class CustomerDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = CustomerSerializer
 
+    @method_decorator(user_permissions('view_customer'))
     def get(self, request, *args, **kwargs):
         """
-        works 24.03 16:21
         Get a specific customer.
         """
         return self.retrieve(request, *args, **kwargs)
 
 
+    @method_decorator(user_permissions('change_customer'))
     def put(self, request, *args, **kwargs):
         """
-        works 24.03 16:23
         Updating a specific customer.
         """
         return self.update(request, *args, **kwargs)
     
 
+    @method_decorator(user_permissions('delete_customer'))
     def delete(self, request, *args, **kwargs):
         """
-        works 24.03 16:24
         Delete a specific customer.
         """
         return self.destroy(request, *args, **kwargs)

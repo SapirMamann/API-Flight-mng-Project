@@ -1,38 +1,33 @@
 from rest_framework import mixins, generics
-from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
+from django.utils.decorators import method_decorator
 
 from ..logics.airline import AirlineLogic
 from ..serializers.airline import AirlineCompanySerializer
-
-from django.utils.decorators import method_decorator
 from ..logics.permission import user_permissions
 
 
 class AirlinesList(generics.GenericAPIView,
-                   PermissionRequiredMixin,
                    mixins.CreateModelMixin, 
                    mixins.ListModelMixin):
     """
-    Handles POST and GET requests
+    Handles POST and GET requests.
     """
     logic = AirlineLogic()
     queryset = logic.get_all()
-    serializer_class = AirlineCompanySerializer
-    permission_required = 'add_airlinecompany'
-    
+    serializer_class = AirlineCompanySerializer    
 
+    @method_decorator(user_permissions('add_airlinecompany'))
     def post(self, request, *args, **kwargs):
         """
-        havnt tried
-        Create a new airline company
+        Create a new airline company.
         """
         return self.create(request, *args, **kwargs)
 
 
+    @method_decorator(user_permissions('view_airlinecompany'))
     def get(self, request, *args, **kwargs):    
         """
-        works
-        List of all Airline companies (displays only names)
+        List of all Airline companies (displays only names).
         """
         return self.list(request, *args, **kwargs)
     
@@ -49,14 +44,15 @@ class AirlineDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = AirlineCompanySerializer
 
+    @method_decorator(user_permissions('view_airlinecompany'))
     def get(self, request, *args, **kwargs):
         """
-        works 24.03 15:35
         Getting a specific airline
         """
         return self.retrieve(request, *args, **kwargs)
 
 
+    @method_decorator(user_permissions('change_airlinecompany'))
     def put(self, request, *args, **kwargs):
         """
         Updating a specific airline
@@ -64,6 +60,7 @@ class AirlineDetail(generics.GenericAPIView,
         return self.update(request, *args, **kwargs)
     
 
+    @method_decorator(user_permissions('delete_airlinecompany'))
     def delete(self, request, *args, **kwargs):
         """
         Delete a specific airline

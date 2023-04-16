@@ -1,6 +1,4 @@
-from rest_framework import mixins, generics, permissions
-from rest_framework.permissions import BasePermission
-from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
+from rest_framework import mixins, generics
 from django.utils.decorators import method_decorator
 
 from ..logics.country import CountryLogic
@@ -26,6 +24,7 @@ class CountriesList(generics.GenericAPIView,
         """
         return self.create(request, *args, **kwargs)
     
+
     @method_decorator(user_permissions('can_view_countries'))
     def get(self, request, *args, **kwargs):
         """
@@ -41,7 +40,7 @@ class CountryDetail(generics.GenericAPIView,
                     mixins.UpdateModelMixin,                     
                     mixins.DestroyModelMixin):
     """
-    Handles GET, PUT and Delete requests by passing an country id.
+    Handles GET, PUT and Delete requests by passing a country id.
     """
     logic = CountryLogic()
     queryset = logic.get_all()
@@ -58,7 +57,6 @@ class CountryDetail(generics.GenericAPIView,
     @method_decorator(user_permissions('change_country'))
     def put(self, request, *args, **kwargs):
         """
-        works 12.04 15:50
         Updating a specific country.
         """
         return self.update(request, *args, **kwargs)

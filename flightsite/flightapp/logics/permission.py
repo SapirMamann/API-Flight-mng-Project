@@ -17,7 +17,6 @@ class CanViewCountries(BasePermission):
 #     return user_groups
 
     
-
 def user_permissions(permission):
     """
     Decorator that checks if a user has a permission to visit a certain page.

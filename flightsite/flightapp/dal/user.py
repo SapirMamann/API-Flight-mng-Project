@@ -25,13 +25,6 @@ class UserDal(BaseDAL):
 
     def update_by_id(self, airline_id: int, data): 
         pass
-        # airline = AirlineCompany.objects.get(id=airline_id)
-
-        # airline.name = data['name']
-        # airline.user = User.objects.get(id=data['user_id'])
-        # airline.country = Country.objects.get(id=data['country_id'])
-        # airline.save()
-        # #add logging
 
     
     def delete():
