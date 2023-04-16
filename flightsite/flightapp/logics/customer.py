@@ -10,18 +10,3 @@ class CustomerLogic():
         """
         return self.dal.get_all() 
 
-
-    # def get_by_id(self, user_id):
-    #     """
-    #     Get customer by customer ID
-    #     """
-    #     return self.dal.get_by_id(user_id)
-
-
-    # def get_by_username(self, customer_username):
-    #     """
-    #     Get customer by username
-    #     for login purposes,
-    #     by entering username we'll get the customer
-    #     """
-    #     pass

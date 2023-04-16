@@ -20,14 +20,9 @@ class AirlineLogic():
 
     def get_by_username(self, airline_username):
         """
-        Get airline by username
-        for login purposes,
-        by entering username we'll get the airline
         """
         pass
 
     def create(self, user_id, name, country_id):
         """
-        Create a new airline- based on information provided by user
         """
-        return self.dal.create(user_id, name, country_id)

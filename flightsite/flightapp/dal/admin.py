@@ -24,6 +24,5 @@ class AdminDal(BaseDAL):
     
     def delete(self):
         """
-        Delete admin/ customer/ airline company/ flight/ ticket everything
         """
         pass

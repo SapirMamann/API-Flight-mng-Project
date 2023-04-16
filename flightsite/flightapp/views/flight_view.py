@@ -1,14 +1,13 @@
 from rest_framework import mixins, generics
-from rest_framework.views import Response
-from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
+from rest_framework.response import Response
+from django.utils.decorators import method_decorator
 
 from ..serializers.flight import FlightSerializer 
 from ..logics.flight import FlightLogic
+from ..logics.permission import user_permissions
 from ..models import Flight
 
-
 class FlightsList(generics.GenericAPIView, 
-                  PermissionRequiredMixin,
                   mixins.ListModelMixin, 
                   mixins.CreateModelMixin):
     """
@@ -17,19 +16,19 @@ class FlightsList(generics.GenericAPIView,
     logic = FlightLogic()
     queryset = logic.get_all()
     serializer_class = FlightSerializer
-    permission_required = 'add_flight'
 
+    @method_decorator(user_permissions('add_flight'))
     def post(self, request, *args, **kwargs):
         """
-        works 24.03 16:39
         Create a new flight. 
         """
         return self.create(request, *args, **kwargs)
 
 
+    # @method_decorator(user_permissions('view_flight'))
     def get(self, request, *args, **kwargs):
         """
-        works 24.03 16:31
+        this should be allow any beacuse anonymous user can access this too
         List of all flights.
         """
         return self.list(request, *args, **kwargs)
@@ -37,8 +36,9 @@ class FlightsList(generics.GenericAPIView,
 
 
 class FlightDetail(generics.GenericAPIView,
-                    mixins.RetrieveModelMixin,                     
-                    mixins.DestroyModelMixin):
+                   mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,                     
+                   mixins.DestroyModelMixin):
     """
     Handles GET, PUT and Delete requests by passing an flight id.
     """
@@ -46,34 +46,35 @@ class FlightDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = FlightSerializer
 
+    @method_decorator(user_permissions('view_flight'))
     def get(self, request, *args, **kwargs):
         """
-        works 24.03 16:35
         Getting a specific flight.
         """
         return self.retrieve(request, *args, **kwargs)
 
 
-    def put(self, request, pk):
+    @method_decorator(user_permissions('change_flight'))
+    def put(self, request, *args, **kwargs ):
         """
-        works 24.03 16:37
         Updating a specific flight.
         """
-        
-        flight = Flight.objects.get(id=pk)
+        flight = Flight.objects.get(id=kwargs['pk'])
         flight.remaining_tickets -= 1
         flight.save()
+        # return self.update(request, *args, **kwargs)
         return Response({'status': 'success'})
-
     
 
+    @method_decorator(user_permissions('delete_flight'))
     def delete(self, request, *args, **kwargs):
         """
-        works 24.03 16:40
         Delete a specific flight.
         """
         return self.destroy(request, *args, **kwargs)
     
+
+
 # @api_view(['PUT'])  
 # def reserve_seat(flight_no):
 #     try:

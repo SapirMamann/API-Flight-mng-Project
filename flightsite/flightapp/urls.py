@@ -10,10 +10,9 @@ from .views import *
 urlpatterns = [
     #permissions
     path('permissions/', PermissionList.as_view(), name='permission-list'),
-    # path('vlad/', permission_view.vladtest(), name='permission-list'),
 
     #authentication
-    path('auth/login/', TokenObtainPairView.as_view(), name ='auth_login'),     #name='token_obtain_pair'
+    path('auth/login/', CustomTokenObtainPairView.as_view(), name ='auth_login'),     #name='token_obtain_pair'
     path('auth/refresh/', TokenRefreshView.as_view(), name ='auth_token_refresh'),      #name='token_refresh'
     path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/logout/', TokenBlacklistView.as_view(), name='logout'),
@@ -28,7 +27,8 @@ urlpatterns = [
 
     #groupes
     path('groups/', GroupListCreate.as_view(), name='group-list-create'),
-
+    path('groups/<int:pk>/', GroupDetail.as_view(), name='group-detail'),
+    path('groups/check/', GroupCheck.as_view(), name='group-check'),
     #countries
     path('countries/', CountriesList.as_view(), name='countries-list'),
     path('countries/<int:pk>/', CountryDetail.as_view(), name='country-detail'),

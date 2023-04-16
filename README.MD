@@ -1,3 +1,11 @@
+setting change to authenticated
+
+i should handle situation where authorization key is not provided
+
+handle where i delete things that doesnt exist
+
+why when im creating a user that is related to a customer model it doesnt automatically understands thats a customer???
+
 *******validators
 **********react
 ******permissions
@@ -9,7 +17,7 @@ to book a flight: LoginRequiredMixin
 Views will be separated like this:
 Auth view:
     -Register
-    -Refresh ?
+    -Refresh 
     -Login
     -Logout
 

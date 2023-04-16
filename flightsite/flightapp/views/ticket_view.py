@@ -1,10 +1,9 @@
 from rest_framework import mixins, generics
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from django.utils.decorators import method_decorator
 
 from ..logics.ticket import TicketLogic
 from ..serializers.ticket import TicketSerializer
-from ..models import Flight
+from ..logics.permission import user_permissions
 
 
 class TicketsList(generics.GenericAPIView, 
@@ -17,18 +16,18 @@ class TicketsList(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = TicketSerializer
 
+    @method_decorator(user_permissions('add_ticket'))
     def post(self, request, *args, **kwargs):
         """
-        works 25.03 12:15
         Add ticket. 
         """
         return self.create(request, *args, **kwargs)
 
 
+    @method_decorator(user_permissions('view_ticket'))
     def get(self, request, *args, **kwargs):
         """
-        works 25.03 12:10
-        List of all countries.
+        List of all tickets.
         """
         return self.list(request, *args, **kwargs)
     
@@ -45,25 +44,25 @@ class TicketDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = TicketSerializer
 
+    @method_decorator(user_permissions('view_ticket'))
     def get(self, request, *args, **kwargs):
         """
-        works 25.03 12:17
         Getting a specific ticket.
         """
         return self.retrieve(request, *args, **kwargs)
 
 
+    @method_decorator(user_permissions('change_ticket'))
     def put(self, request, *args, **kwargs):
         """
-        works 25.03 12:15
         Updating a specific ticket.
         """
         return self.update(request, *args, **kwargs)
     
 
+    @method_decorator(user_permissions('delete_ticket'))
     def delete(self, request, *args, **kwargs):
         """
-        works 25.03 12:22
         Delete a specific ticket.
         """
         return self.destroy(request, *args, **kwargs)

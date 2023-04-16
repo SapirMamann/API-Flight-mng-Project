@@ -1,34 +1,32 @@
 from rest_framework import mixins, generics
-from django.contrib.auth.mixins import PermissionRequiredMixin  #inherit for class 
-from django.contrib.auth.decorators import permission_required  #decorator for function
+from django.utils.decorators import method_decorator
 
 from ..logics.admin import AdminLogic
 from ..serializers.admin import AdminSerializer
+from ..logics.permission import user_permissions
 
 
 class AdminsList(generics.GenericAPIView,
-                 PermissionRequiredMixin,
                  mixins.CreateModelMixin, 
                  mixins.ListModelMixin):
     """
-    Handles POST and GET requests
+    Handles POST and GET requests.
     """
-    # permission_required = ()
     logic = AdminLogic()
     queryset = logic.get_all()
     serializer_class = AdminSerializer
     
+    @method_decorator(user_permissions('add_administrator'))
     def post(self, request, *args, **kwargs):
         """
-        works 24.03 13:14
-        Create a new admin
+        Create a new admin.
         """
         return self.create(request, *args, **kwargs)
 
 
+    @method_decorator(user_permissions('view_administrator'))
     def get(self, request, *args, **kwargs):
         """
-        works 24.03 13:14
         List of all admins.
         """
         return self.list(request, *args, **kwargs)
@@ -46,25 +44,25 @@ class AdminDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = AdminSerializer
 
+    @method_decorator(user_permissions('view_administrator'))
     def get(self, request, *args, **kwargs):
         """
-        works 24.03 13:20
-        Get a specific admin
+        Get a specific admin.
         """
         return self.retrieve(request, *args, **kwargs)
 
 
+    @method_decorator(user_permissions('change_administrator'))
     def put(self, request, *args, **kwargs):
         """
-        works 24.03 13:24
-        Updating a specific admin
+        Updating a specific admin.
         """
         return self.update(request, *args, **kwargs)
     
 
+    @method_decorator(user_permissions('delete_administrator'))
     def delete(self, request, *args, **kwargs):
         """
-        **********havnt been tested****************
-        Delete a specific admin
+        Delete a specific admin.
         """
         return self.destroy(request, *args, **kwargs)

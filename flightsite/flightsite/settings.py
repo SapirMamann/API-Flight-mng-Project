@@ -51,13 +51,13 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [     #list of permission classes that will be applied globally to all views in your Django REST Framework API.
-        'rest_framework.permissions.IsAuthenticated',       #only authenticated users can access the API.
+        'rest_framework.permissions.AllowAny',       #only authenticated users can access the API.
     ],
 }
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=45),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=90),
     "ROTATE_REFRESH_TOKENS": True,      #if user stays logged in, refresh the token(with a new access token) automatically and dont log him out.
     "BLACKLIST_AFTER_ROTATION": True,      #the last token will be blacklisted so no one can use the old token again(it saves the old tokens in db blacklist table).

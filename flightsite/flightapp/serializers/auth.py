@@ -38,3 +38,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
     
 
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    default_error_messages = {
+        'no_active_account': ('email or password is incorrect!')
+    }

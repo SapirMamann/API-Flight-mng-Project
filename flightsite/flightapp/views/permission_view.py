@@ -1,47 +1,23 @@
 from django.contrib.auth.models import Permission
-from django.contrib.auth.mixins import UserPassesTestMixin
 from rest_framework import generics
-from django.http import HttpResponse
-from rest_framework.permissions import BasePermission
+from django.utils.decorators import method_decorator
 
 from ..serializers.permission import PermissionSerializer
+from ..logics.permission import user_permissions
 
 
-# class IsObjectOwner(BasePermission):
-#         message = "You must be the owner of this object."
-#         my_safe_methods = ['GET', 'PUT', 'PATCH', 'DELETE']
-
-#     def has_permission(self, request, view):
-#         if request.method in self.my_safe_methods:
-#             return True
-#         return False
-
-#     def has_object_permission(self, request, view, obj):
-#         if request.user.is_superuser:
-#             return obj
-#         else:
-#             return obj == request.user
-        
-
-#For example, you might add the change_blogpost permission to the "Editors" group like this:        
-#from django.contrib.auth.models import Permission
-
-# change_blogpost_permission = Permission.objects.get(codename='change_blogpost')
-
-# editors_group.permissions.add(change_blogpost_permission)
-
-
-
-class PermissionList(generics.ListAPIView,
-                     UserPassesTestMixin,):
+class PermissionList(generics.ListAPIView):
     """
     List of all permissions.
     The permission system is used by the Django admin site and are automatically created for each model (taken from 'Permission' description).
     """
-    # def test_func(self):
-    #     return self.request.user.has_perm('flightapp.can_view_perms')
-    
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
 
-
+    # @method_decorator(user_permissions('view_permission'))
+    def get(self, request, *args, **kwargs):
+        """
+        works 12.04 15:19
+        List of all permissions.
+        """
+        return self.list(request, *args, **kwargs)
