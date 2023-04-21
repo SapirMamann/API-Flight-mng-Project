@@ -15,18 +15,6 @@ class UserGroup(Group):
     class Meta:
         proxy = True        #UserGroup doesn't create a new database table, but instead creates a new Python class that represents Group.
 
-    # @property
-    # def group_permissions(self):
-    #     perms = super().permissions
-    #     # modify the list of permissions based on the group name
-    #     if self.name == 'Administrator':        #group no 1
-    #         perms.add('can_add_user')
-    #     elif self.name == 'Airline company':        #group no 2
-    #         pass
-    #     elif self.name == 'Customer':       #group no 3
-    #         pass
-    #     return perms
-
 
 
 class User(AbstractUser):

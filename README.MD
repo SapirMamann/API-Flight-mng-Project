@@ -1,5 +1,7 @@
 setting change to authenticated
 
+i changed customer group permission so a cust can update flight (otherwise he cant book a seat)
+
 i should handle situation where authorization key is not provided
 
 handle where i delete things that doesnt exist

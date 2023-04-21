@@ -75,31 +75,13 @@ class GroupCheck(APIView):
         user_group_list =[]     #Get the list of user's groups. 
         for group in request.user.groups.all():     #Turn queryset to list
             user_group_list.append(group.name)
-        print(user_group_list)      #['Administrator']
-        print(groups_from_request)      #groups=Administrator,+Airline+company
+        # print(user_group_list)      #['Administrator']
+        # print(groups_from_request)      #groups=Administrator,+Airline+company
         for group in user_group_list:       #Loop through user's groups.
-            print(group)        #Administrator
+            # print(group)        #Administrator
             if group in groups_from_request:        #If theres a match => send a "True" response to react side
                 # print('yes')
                 return JsonResponse({'result': True})
         else:
-            print('no')
+            # print('no')
             return JsonResponse({'result': False})        
-        
-        # user_group = str(request.user.groups.all())     #get the user's group
-        # print(groups_from_request)      #Administrator
-      
-        # user_group = list(request.user.groups.values_list('name', flat = True))     #get the user's group
-        # print(f'user_group: {user_group}')  #user_group: <QuerySet [<Group: Administrator>]>
-
-        # print(request.user)     #admin
-        # print(f'request.user.groups: {request.user.groups}')     #admin
-        # print(f'l =  {l}')      #l =  ['Administrator']
-
-        # if l in groups_from_request:
-
-        
-        # groups_from_request = []
-        # for obj in request.GET['groups[]']:
-        #     for k,v in obj.items():
-        #         groups_from_request.append(v)

@@ -25,7 +25,6 @@ class FlightsList(generics.GenericAPIView,
         return self.create(request, *args, **kwargs)
 
 
-    # @method_decorator(user_permissions('view_flight'))
     def get(self, request, *args, **kwargs):
         """
         this should be allow any beacuse anonymous user can access this too
@@ -60,10 +59,19 @@ class FlightDetail(generics.GenericAPIView,
         Updating a specific flight.
         """
         flight = Flight.objects.get(id=kwargs['pk'])
-        flight.remaining_tickets -= 1
-        flight.save()
-        # return self.update(request, *args, **kwargs)
-        return Response({'status': 'success'})
+
+        # Check if the request is for updating the flight details
+        if 'destination_country' in request.data:
+            print(request.data)
+            return self.update(request, *args, **kwargs)
+
+        # Check if the flight has remaining tickets
+        if flight.remaining_tickets <= 0:
+            return Response("Ticket error", status=404)
+        else:
+            flight.remaining_tickets -= 1
+            flight.save()
+            return Response({'status': 'success'})
     
 
     @method_decorator(user_permissions('delete_flight'))
@@ -73,16 +81,3 @@ class FlightDetail(generics.GenericAPIView,
         """
         return self.destroy(request, *args, **kwargs)
     
-
-
-# @api_view(['PUT'])  
-# def reserve_seat(flight_no):
-#     try:
-#         flight = Flight.objects.get(id=flight_no)
-#         flight.remaining_tickets -= 1
-#         flight.save()
-#         return Response({'status': 'success'})
-    
-#     except Flight.DoesNotExist:
-#         return Response({'status': 'error', 'message': f'Flight {flight_no} not found'})
-

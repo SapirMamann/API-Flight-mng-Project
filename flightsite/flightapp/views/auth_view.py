@@ -23,7 +23,7 @@ class RegisterView(generics.CreateAPIView):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     """
-    Login 
+    Login.
     """
     permission_classes = [permissions.AllowAny]
     serializer_class = CustomTokenObtainPairSerializer
@@ -32,7 +32,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 class LogoutView(APIView):
     """
-    doesnt display message in postman
+    Logout. 
     """
     # permission_classes = (IsAuthenticated,)
     def post(self, request, *args, **kwargs):
