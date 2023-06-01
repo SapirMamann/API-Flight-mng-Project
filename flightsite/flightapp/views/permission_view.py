@@ -14,10 +14,9 @@ class PermissionList(generics.ListAPIView):
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
 
-    # @method_decorator(user_permissions('view_permission'))
+    @method_decorator(user_permissions('view_permission'))
     def get(self, request, *args, **kwargs):
         """
-        works 12.04 15:19
         List of all permissions.
         """
         return self.list(request, *args, **kwargs)

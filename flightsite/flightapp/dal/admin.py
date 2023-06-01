@@ -1,8 +1,9 @@
 from .base import BaseDAL
 from ..models import Administrator
 
+
 class AdminDal(BaseDAL):
-    def __init__(self): #is this neccassary?
+    def __init__(self): 
         super().__init__()
 
     

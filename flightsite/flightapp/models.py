@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Group, Permission, AbstractUser
 
 
 class Country(models.Model):
@@ -46,6 +45,9 @@ class Administrator(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
 
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+    
 
 
 class AirlineCompany(models.Model):
@@ -76,4 +78,7 @@ class Flight(models.Model):
 
 class Ticket(models.Model):
     flight_no = models.ForeignKey(Flight, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.flight_no}, {self.user}'

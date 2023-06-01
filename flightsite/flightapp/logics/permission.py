@@ -16,7 +16,7 @@ class CanViewCountries(BasePermission):
 #     user_groups = decoded_token.get('groups', [])
 #     return user_groups
 
-    
+
 def user_permissions(permission):
     """
     Decorator that checks if a user has a permission to visit a certain page.

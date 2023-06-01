@@ -19,16 +19,14 @@ class CountriesList(generics.GenericAPIView,
     @method_decorator(user_permissions('add_country'))
     def post(self, request, *args, **kwargs):
         """
-        works 12.04 14:41
         Add country. 
         """
         return self.create(request, *args, **kwargs)
     
 
-    # @method_decorator(user_permissions('can_view_countries'))
     def get(self, request, *args, **kwargs):
         """
-        works 12.04 14:41
+        This method has no permission decorator because anonymous users can view countries too.
         List of all countries.
         """
         return self.list(request, *args, **kwargs)

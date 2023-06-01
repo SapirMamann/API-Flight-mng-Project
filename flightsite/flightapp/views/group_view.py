@@ -1,12 +1,12 @@
 from rest_framework import generics, mixins
 from rest_framework.permissions import IsAuthenticated
-from django.contrib.auth.models import Group
 from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from django.http import JsonResponse
 
 from ..serializers.group import GroupSerializer
 from ..logics.permission import user_permissions
+from ..logics.group import GroupLogic
 
 
 class GroupListCreate(generics.GenericAPIView,
@@ -16,9 +16,9 @@ class GroupListCreate(generics.GenericAPIView,
     add logics = ...
     Handles POST and GET requests
     """
-    queryset = Group.objects.all()
+    logic = GroupLogic()
+    queryset = logic.get_all()
     serializer_class = GroupSerializer
-    # permission_classes = [IsAuthenticated]
 
     @method_decorator(user_permissions('add_group'))
     def post(self, request, *args, **kwargs):
@@ -37,8 +37,8 @@ class GroupDetail(generics.GenericAPIView,
     """
     Handles GET, PUT and Delete requests by passing a group id.
     """
-    # logic = GroupLogic()
-    queryset = Group.objects.all()
+    logic = GroupLogic()
+    queryset = logic.get_all()
     serializer_class = GroupSerializer
 
     @method_decorator(user_permissions('view_group'))
@@ -68,6 +68,10 @@ class GroupDetail(generics.GenericAPIView,
 
 class GroupCheck(APIView):
     """
+    For react. 
+    React side passes list of groups that can view a certain page or component,
+    and this view checks if the user has the required permission.
+    If user does not have the required permission -> it will return flase and wont display the requested page/ component.
     """
     def get(self, request, *args, **kwargs):
         groups_from_request = str(request.GET.get('groups', ""))      #Get groups from the request, if its not provided in react, default to an empty str 

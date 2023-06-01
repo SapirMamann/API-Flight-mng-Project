@@ -1,6 +1,7 @@
 from .base import BaseDAL
 from ..models import Flight
 
+
 class FlightDal(BaseDAL):
     def __init__(self): #is this neccassary?
         super().__init__()

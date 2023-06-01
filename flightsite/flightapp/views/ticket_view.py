@@ -1,9 +1,13 @@
-from rest_framework import mixins, generics
+from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
+from rest_framework import mixins, generics, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from ..logics.ticket import TicketLogic
 from ..serializers.ticket import TicketSerializer
 from ..logics.permission import user_permissions
+from ..models import Flight, Country, User
 
 
 class TicketsList(generics.GenericAPIView, 
@@ -66,3 +70,5 @@ class TicketDetail(generics.GenericAPIView,
         Delete a specific ticket.
         """
         return self.destroy(request, *args, **kwargs)
+
+
