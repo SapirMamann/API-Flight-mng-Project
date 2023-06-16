@@ -57,8 +57,8 @@ class AirlineDetail(generics.GenericAPIView,
         """
         Updating a specific airline
         """
-        return self.update(request, *args, **kwargs)
-    
+        return self.partial_update(request, *args, **kwargs)
+
 
     @method_decorator(user_permissions('delete_airlinecompany'))
     def delete(self, request, *args, **kwargs):

@@ -1,5 +1,5 @@
 from .base import BaseDAL
-from ..models import *
+from ..models import AirlineCompany
 
 
 class AirlineDal(BaseDAL):
@@ -8,69 +8,17 @@ class AirlineDal(BaseDAL):
 
 
     def create(self, user_id, name, country_id):
-        user = User.objects.get(id=user_id)
-        country = Country.objects.get(id=country_id)
-
-        new_airline = AirlineCompany.objects.create(
-            user=user,
-            name=name,
-            country=country)
-        
-        return new_airline
-
+        pass
 
     def get_all(self):
         return AirlineCompany.objects.all()
     
 
     def get_by_id(self, airline_id):
-        return AirlineCompany.objects.get(id=airline_id) 
+        pass
 
-
-    def update_by_id(self, airline_id: int, data): 
-        airline = AirlineCompany.objects.get(id=airline_id)
-
-        airline.name = data['name']
-        airline.user = User.objects.get(id=data['user_id'])
-        airline.country = Country.objects.get(id=data['country_id'])
-        airline.save()
-        #add logging
-
+    def update_by_id(self): 
+        pass
     
     def delete():
-        pass
-    
-
-
-class FlightDal(BaseDAL):
-    def __init__(self):     #is this neccassary?
-        super().__init__()
-
-
-    def create(self, user_id, name, country_id):
-        """
-        Add flight.
-        """
-        pass
-
-
-    def get_all(self):
-        pass
-    
-
-    def get_by_id(self, airline_id):
-        pass
-
-
-    def update_by_id(self, airline_id: int, data): 
-        """
-        Update a flight by passing its ID
-        """
-        pass
-
-
-    def delete():
-        """
-        Delete a flight
-        """
         pass

@@ -1,6 +1,7 @@
 from .base import BaseDAL
 from ..models import Country
 
+
 class CountryDal(BaseDAL):
     def __init__(self): #is this neccassary?
         super().__init__()

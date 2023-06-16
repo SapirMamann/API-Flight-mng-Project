@@ -8,9 +8,6 @@ class UserDal(BaseDAL):
 
 
     def create(self, username, password, email, role):
-        """
-        im using mixins so i dont need this 
-        """
         pass
 
 
@@ -20,7 +17,6 @@ class UserDal(BaseDAL):
 
     def get_by_id(self, airline_id):
         pass
-        # return AirlineCompany.objects.get(id=airline_id) 
 
 
     def update_by_id(self, airline_id: int, data): 

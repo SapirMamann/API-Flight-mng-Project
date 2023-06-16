@@ -12,11 +12,12 @@ class FlightSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-    def validate_destination_country(self, origin_country):
-        destination_country = self.initial_data.get('destination_country')
-        if destination_country == origin_country:
+    def validate_destination_country(self, destination_country):
+        origin_country = self.initial_data.get('origin_country')
+
+        if str(destination_country.id) == origin_country:
             raise serializers.ValidationError('Destination country and origin country must be different.')
-        return origin_country
+        return destination_country
     
 
     def validate_departure_time(self, value):

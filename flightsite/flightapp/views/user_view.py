@@ -50,7 +50,7 @@ class UserDetail(generics.GenericAPIView,
                     mixins.UpdateModelMixin,                     
                     mixins.DestroyModelMixin):
     """
-    Handles GET, PUT and Delete requests by passing an user id.
+    Handles GET, PUT and Delete requests by passing a user id.
     """    
     logic = UserLogic()
     queryset = logic.get_all()
@@ -63,6 +63,23 @@ class UserDetail(generics.GenericAPIView,
         """
         return self.retrieve(request, *args, **kwargs)
 
+    
+    def get_object(self):
+        """
+        Override get_object() to allow for retrieving the user by either
+        pk or username.
+        """
+        queryset = self.get_queryset()
+        # Try to get the user by pk
+        obj = queryset.filter(pk=self.kwargs.get(self.lookup_field)).first()
+        if obj is not None:
+            return obj
+        # If user not found by pk, try to get it by username
+        obj = queryset.filter(username=self.kwargs.get(self.lookup_field)).first()
+        if obj is not None:
+            return obj
+        # If user not found by either pk or username, raise a 404 error
+        
 
     @method_decorator(user_permissions('change_user'))
     def put(self, request, *args, **kwargs):

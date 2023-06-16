@@ -1,10 +1,16 @@
 setting change to authenticated
 
-i should handle situation where authorization key is not provided
+<!-- user in models has null=true because it gives error (needs to be changed) -->
 
+i changed customer group permission so a cust can update flight (otherwise he cant book a seat)
+
+<!-- i should handle situation where authorization key is not provided -->
+delete flight
+
+if unlogged user wants to book flight he must login/ sign up
 handle where i delete things that doesnt exist
-
-why when im creating a user that is related to a customer model it doesnt automatically understands thats a customer???
+ 
+formik to add airline company
 
 *******validators
 **********react

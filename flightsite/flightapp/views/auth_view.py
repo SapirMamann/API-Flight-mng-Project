@@ -8,22 +8,23 @@ from rest_framework.decorators import permission_classes
 
 from ..serializers.auth import RegisterSerializer, CustomTokenObtainPairSerializer
 from ..serializers.user import UserSerializer
-from ..models import User 
 from ..logics.permission import user_permissions
+from ..logics.user import UserLogic
 
 class RegisterView(generics.CreateAPIView):
     """
     Creating a new user, has a built-in hashed password
     """
-    querndeyset = User.objects.all()
     permission_classes = [permissions.AllowAny]
+    logic = UserLogic()
+    queryset = logic.get_all()
     serializer_class = RegisterSerializer
 
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     """
-    Login 
+    Login.
     """
     permission_classes = [permissions.AllowAny]
     serializer_class = CustomTokenObtainPairSerializer
@@ -32,9 +33,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 class LogoutView(APIView):
     """
-    doesnt display message in postman
+    Logout. 
     """
     # permission_classes = (IsAuthenticated,)
     def post(self, request, *args, **kwargs):
-            logout(request)
-            return Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)
+        logout(request)
+        return Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)

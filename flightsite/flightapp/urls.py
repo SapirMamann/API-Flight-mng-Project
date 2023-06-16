@@ -31,6 +31,7 @@ urlpatterns = [
     path('groups/', GroupListCreate.as_view(), name='group-list-create'),
     path('groups/<int:pk>/', GroupDetail.as_view(), name='group-detail'),
     path('groups/check/', GroupCheck.as_view(), name='group-check'),
+
     #countries
     path('countries/', CountriesList.as_view(), name='countries-list'),
     path('countries/<int:pk>/', CountryDetail.as_view(), name='country-detail'),
@@ -42,6 +43,8 @@ urlpatterns = [
     #flights
     path('flights/', FlightsList.as_view(), name='flights-list'),
     path('flights/<int:pk>/', FlightDetail.as_view(), name='flight-detail'),
+    path('get_flights/<str:country>/', FlightsByCountry.as_view(), name='flight-by-country'),
+    path('flights/<int:flight_id>/book/', BookFlight.as_view(), name='book-flight'),
     
     #tickets
     path('tickets/', TicketsList.as_view(), name='tickets-list'),

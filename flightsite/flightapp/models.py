@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Group, Permission, AbstractUser
 
 
 class Country(models.Model):
@@ -14,18 +13,6 @@ class Country(models.Model):
 class UserGroup(Group):
     class Meta:
         proxy = True        #UserGroup doesn't create a new database table, but instead creates a new Python class that represents Group.
-
-    # @property
-    # def group_permissions(self):
-    #     perms = super().permissions
-    #     # modify the list of permissions based on the group name
-    #     if self.name == 'Administrator':        #group no 1
-    #         perms.add('can_add_user')
-    #     elif self.name == 'Airline company':        #group no 2
-    #         pass
-    #     elif self.name == 'Customer':       #group no 3
-    #         pass
-    #     return perms
 
 
 
@@ -58,6 +45,9 @@ class Administrator(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
 
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+    
 
 
 class AirlineCompany(models.Model):
@@ -88,4 +78,7 @@ class Flight(models.Model):
 
 class Ticket(models.Model):
     flight_no = models.ForeignKey(Flight, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.flight_no}, {self.user}'
