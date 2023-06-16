@@ -1,10 +1,14 @@
 from rest_framework import mixins, generics, permissions
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
 
 from ..logics.user import UserLogic
 from ..serializers.user import UserSerializer
 from ..logics.permission import user_permissions
+
+from rest_framework.permissions import IsAuthenticated\
+
 
 
 class UsersList(generics.GenericAPIView,
@@ -74,3 +78,11 @@ class UserDetail(generics.GenericAPIView,
         Delete a specific user.
         """
         return self.destroy(request, *args, **kwargs)
+
+class GetCurrentUserDetails(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, *args, **kwargs):
+        return Response({
+            'username': request.user.username,
+        })

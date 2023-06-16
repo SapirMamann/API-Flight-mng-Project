@@ -25,7 +25,7 @@ class CountriesList(generics.GenericAPIView,
         return self.create(request, *args, **kwargs)
     
 
-    @method_decorator(user_permissions('can_view_countries'))
+    # @method_decorator(user_permissions('can_view_countries'))
     def get(self, request, *args, **kwargs):
         """
         works 12.04 14:41

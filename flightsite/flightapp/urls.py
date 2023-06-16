@@ -25,6 +25,8 @@ urlpatterns = [
     path('users/', UsersList.as_view(), name='users-list'),
     path('users/<int:pk>/', UserDetail.as_view(), name='user-detail'),
 
+    path('users/get_current_user_details/', GetCurrentUserDetails.as_view(), name='get-current-user-details'),
+
     #groupes
     path('groups/', GroupListCreate.as_view(), name='group-list-create'),
     path('groups/<int:pk>/', GroupDetail.as_view(), name='group-detail'),
