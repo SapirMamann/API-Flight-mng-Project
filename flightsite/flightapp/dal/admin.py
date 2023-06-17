@@ -3,7 +3,7 @@ from ..models import Administrator
 
 
 class AdminDal(BaseDAL):
-    def __init__(self): 
+    def __init__(self): #necessary?
         super().__init__()
 
     

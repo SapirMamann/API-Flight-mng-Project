@@ -3,7 +3,7 @@ from ..models import Country
 
 
 class CountryDal(BaseDAL):
-    def __init__(self): #is this neccassary?
+    def __init__(self): 
         super().__init__()
 
 

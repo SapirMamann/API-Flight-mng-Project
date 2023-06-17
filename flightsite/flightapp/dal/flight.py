@@ -3,7 +3,7 @@ from ..models import Flight
 
 
 class FlightDal(BaseDAL):
-    def __init__(self): #is this neccassary?
+    def __init__(self): 
         super().__init__()
 
     
