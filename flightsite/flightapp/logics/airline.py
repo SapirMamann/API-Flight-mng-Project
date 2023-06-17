@@ -17,12 +17,3 @@ class AirlineLogic():
         """
         return self.dal.get_by_id(airline_id)
 
-
-    def get_by_username(self, airline_username):
-        """
-        """
-        pass
-
-    def create(self, user_id, name, country_id):
-        """
-        """

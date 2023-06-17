@@ -96,6 +96,9 @@ class UserDetail(generics.GenericAPIView,
         """
         return self.destroy(request, *args, **kwargs)
 
+
+
+
 class GetCurrentUserDetails(APIView):
     permission_classes = (IsAuthenticated, )
 

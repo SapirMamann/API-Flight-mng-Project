@@ -9,7 +9,7 @@ from .views import *
 
 urlpatterns = [
     #permissions
-    path('permissions/', PermissionList.as_view(), name='permission-list'),
+    path(' permissions/', PermissionList.as_view(), name='permission-list'),
 
     #authentication
     path('auth/login/', CustomTokenObtainPairView.as_view(), name ='auth_login'),     #name='token_obtain_pair'

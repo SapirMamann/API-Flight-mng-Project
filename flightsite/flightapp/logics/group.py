@@ -13,7 +13,6 @@ class GroupPermission(BasePermission):
 
 
 
-
 class GroupLogic():
 
     def get_all(self):
