@@ -100,9 +100,16 @@ class UserDetail(generics.GenericAPIView,
 
 
 class GetCurrentUserDetails(APIView):
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
 
     def get(self, request, *args, **kwargs):
-        return Response({
-            'username': request.user.username,
-        })
+        # if request.user.username:
+            return Response({
+                'username': request.user.username,
+                'isAdmin': request.user.is_admin,
+            })
+        # return Response({
+        #     'username': None,
+        #     'isAdmin': False, #not neccessary
+        # })
+        
