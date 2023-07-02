@@ -130,3 +130,20 @@ class BookFlight(APIView):
         # return Response({'message': 'Ticket booked successfully'})
         # # else:
         # #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SearchFlight(APIView):
+    def get(self, request, *args, **kwargs):
+        # Getting params from client(react)
+        origin_country = request.GET.get('origin_country')
+
+        logic = FlightLogic()
+        flights = logic.get_by_params(origin_country)
+        
+        serializer = FlightSerializer(flights, many=True)
+        serialized_flights = serializer.data
+
+        print("ok", flights)
+
+        context = {'flights': serialized_flights}
+        return Response({'flights': serialized_flights})
