@@ -23,20 +23,22 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ('username', 'password', 'password2', 'email', 'user_role')
 
     def validate_password(self, value):
-        password2 = self.initial_data.get('password2')
+        # password2 = self.initial_data.get('password2')
         #need to debugggggggggggggggggg
         #i get the wrong group everytime. 
         #and i tried to change this so it will have its own password validation function but now it has a problem beacuse it gives me array i think
-        if value['password'] != value['password2']:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})
-        return value
+        # if value['password'] != value['password2']:
+        #     raise serializers.ValidationError({"password": "Password fields didn't match."})
+        print(value)
+        # return value
     
     def validate_user_role(self, value):
-        user_role_instance = UserGroup.objects.filter(id=value['user_role']).first()
+        # user_role_instance = UserGroup.objects.filter(id=value['user_role']).first()
 
-        if not user_role_instance:
-            raise serializers.ValidationError({"user_role": "User Group is bad"})
-        return value
+        # if not user_role_instance:
+        #     raise serializers.ValidationError({"user_role": "User Group is bad"})
+        # return value
+        print(value)
 
     def create(self, validated_data):
         user_role_instance = UserGroup.objects.filter(id=validated_data['user_role']).first()

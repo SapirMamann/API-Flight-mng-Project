@@ -106,7 +106,7 @@ class GetCurrentUserDetails(APIView):
         # if request.user.username:
             return Response({
                 'username': request.user.username,
-                'isAdmin': request.user.is_admin,
+                # 'isAdmin': request.user.is_admin,
             })
         # return Response({
         #     'username': None,
