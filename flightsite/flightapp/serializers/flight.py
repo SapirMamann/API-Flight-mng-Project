@@ -3,10 +3,16 @@ from django.utils import timezone
 import dateutil.parser
 
 from ..models import Flight
+from .country import CountrySerializer
 
 from datetime import datetime, timezone
 
 class FlightSerializer(serializers.ModelSerializer):
+    # In order to get the name field of a foreign key and not the pk. 
+    airline_company = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    origin_country = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    destination_country = serializers.SlugRelatedField(slug_field="name", read_only=True)
+
     class Meta:
         model = Flight
         fields = '__all__'
