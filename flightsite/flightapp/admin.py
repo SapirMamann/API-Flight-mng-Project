@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import (Country, User, Customer, 
+from .models import (Country, UserGroup, User, Customer, 
     Administrator, AirlineCompany, Flight, Ticket)
 
 
@@ -11,3 +11,4 @@ admin.site.register(Administrator)
 admin.site.register(AirlineCompany)
 admin.site.register(Flight)
 admin.site.register(Ticket)
+admin.site.register(UserGroup)
