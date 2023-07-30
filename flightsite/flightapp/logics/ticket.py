@@ -1,5 +1,9 @@
+from django.shortcuts import get_object_or_404
+
 from ..dal.ticket import TicketDal
+from ..dal.flight import FlightDal
 from ..models import Flight
+
 
 class TicketLogic():
     dal = TicketDal()
@@ -14,3 +18,19 @@ class TicketLogic():
     def get_by_customer(self, user_id):
         pass
     #get all tickets of a specific customer
+    
+    
+    def create_ticket_with_flight_update(self, data):
+        """
+        Create a ticket and update the flight remaining tickets
+        """
+        flight_dal = FlightDal()
+        
+        # logger
+        flight = get_object_or_404(Flight, id=data['flight_no'])
+        # print(flight)
+        # print("this", flight.remaining_tickets)
+        flight.remaining_tickets -=1
+        # log this after: <<<<<<<<<<
+        # print("after",flight.remaining_tickets)
+        flight.save()

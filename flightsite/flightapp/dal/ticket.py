@@ -9,3 +9,6 @@ class TicketDal(BaseDAL):
 
     def get_all(self):
         return Ticket.objects.all()
+    
+
+

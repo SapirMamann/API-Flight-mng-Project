@@ -24,3 +24,5 @@ class FlightLogic():
     def get_departure_flights(self, origin_country):
         pass
     #that take off from the given country
+
+

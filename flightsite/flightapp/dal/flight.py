@@ -13,3 +13,10 @@ class FlightDal(BaseDAL):
 
     def get_by_params(self, origin_country):
         return Flight.objects.filter(origin_country=origin_country)
+    
+
+    def decrease_remaining_tickets(self, flight_id):
+        flight = Flight.objects.get(id=flight_id)
+        flight.remaining_tickets -= 1
+        flight.save()
+        return flight

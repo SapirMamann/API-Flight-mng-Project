@@ -20,11 +20,13 @@ class TicketsList(
     queryset = logic.get_all()
     serializer_class = TicketSerializer
 
-    @method_decorator(user_permissions('add_ticket'))
+    # @method_decorator(user_permissions('add_ticket'))
     def post(self, request, *args, **kwargs):
         """
         Add ticket. 
         """
+        data = request.data.copy()
+        self.logic.create_ticket_with_flight_update(data)
         return self.create(request, *args, **kwargs)
 
 
