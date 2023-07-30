@@ -2,8 +2,10 @@ from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.validators import UniqueValidator
+from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.models import Group
+from django.contrib.auth import authenticate
 
 from ..models import User, UserGroup
 
@@ -23,14 +25,14 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ('username', 'password', 'password2', 'email', 'user_role')
 
     def validate_password(self, value):
-        # password2 = self.initial_data.get('password2')
+        password2 = self.initial_data.get('password2')
         #need to debugggggggggggggggggg
         #i get the wrong group everytime. 
         #and i tried to change this so it will have its own password validation function but now it has a problem beacuse it gives me array i think
-        # if value['password'] != value['password2']:
-        #     raise serializers.ValidationError({"password": "Password fields didn't match."})
+        if value['password'] != value['password2']:
+            raise serializers.ValidationError({"password": "Password fields didn't match."})
         print(value)
-        # return value
+        return value
     
     def validate_user_role(self, value):
         # user_role_instance = UserGroup.objects.filter(id=value['user_role']).first()
@@ -65,3 +67,24 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     default_error_messages = {
         'no_active_account': ('email or password are incorrect!')
     }
+
+    # def validate(self, attrs):
+    #     email = attrs.get('email')
+    #     password = attrs.get('password')
+
+    #     user = authenticate(email=email, password=password)
+
+    #     if user:
+    #         if not user.is_active:
+    #             raise AuthenticationFailed(
+    #                 self.error_messages['no_active_account'],
+    #                 code='no_active_account',
+    #             )
+    #     else:
+    #         raise AuthenticationFailed(
+    #             self.error_messages['no_active_account'],
+    #             code='no_active_account',
+    #         )
+
+    #     data = super().validate(attrs)
+    #     return data

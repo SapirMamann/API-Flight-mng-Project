@@ -2,12 +2,13 @@ from rest_framework import mixins, generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
+from django.http import JsonResponse
 
 from ..logics.user import UserLogic
 from ..serializers.user import UserSerializer
 from ..logics.permission import user_permissions
-
-from rest_framework.permissions import IsAuthenticated\
+from ..models import User
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -36,8 +37,9 @@ class UsersList(generics.GenericAPIView,
         """
         List of all users.
         """
-        print(f"User permissions: {request.user.get_all_permissions()}")
-        print(f"User permissions: {request.user.has_perm('flightapp.view_user')}")
+        # print(f"User permissions: {request.user.get_all_permissions()}")
+        # print(f"User permissions: {request.user.has_perm('flightapp.view_user')}")
+
         # if request.user.has_perm('flightapp.view_user') is False:
         #     return Response('okkkkkk', status=403)
 
@@ -79,7 +81,8 @@ class UserDetail(generics.GenericAPIView,
         if obj is not None:
             return obj
         # If user not found by either pk or username, raise a 404 error
-        
+        else:
+            return Response({'error': 'User not found'}, status=404)
 
     @method_decorator(user_permissions('change_user'))
     def put(self, request, *args, **kwargs):
@@ -101,15 +104,38 @@ class UserDetail(generics.GenericAPIView,
 
 class GetCurrentUserDetails(APIView):
     # permission_classes = (IsAuthenticated, )
-
+    # im using this view because if i would have used the get user by id mixin view, i would have problem with the permissions
+    
     def get(self, request, *args, **kwargs):
-        # if request.user.username:
+        # TODO: Try wit 'request.user' to get all of the user 
+        # data instead of getting the object
+
+        # Get user object
+        try:
+            user = User.filter(id=request.user.id).first()
+            print(request.user.id)
+            if user:
+                return Response({
+                    'username': user.username,
+                    'isAdmin': user.is_admin,
+                })
+            # else:
+            #     return Response({
+            #         'error': 'User not found'
+            #     }, status=404)
+        except Exception as e:
             return Response({
-                'username': request.user.username,
-                # 'isAdmin': request.user.is_admin,
-            })
-        # return Response({
-        #     'username': None,
-        #     'isAdmin': False, #not neccessary
-        # })
+                'error': str(e)+'User not found'
+            }, status=404)
         
+        
+def get_username(request):
+    print(request.user)
+    print(request.user.is_authenticated)
+    # Check if the user is authenticated
+    if request.user:
+        username = request.user.username
+        return JsonResponse({'username': username})
+    else:
+        # If the user is not authenticated, return an error or an empty response
+        return JsonResponse({'error': 'User not authenticated'}, status=401)

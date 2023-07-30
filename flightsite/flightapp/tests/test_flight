@@ -1,19 +1,19 @@
-import pytest
-from django.urls import reverse
-from rest_framework.test import APIClient
-from rest_framework import status
+# import pytest
+# from django.urls import reverse
+# from rest_framework.test import APIClient
+# from rest_framework import status
 
 
-# Will be used for making requests:
-@pytest.fixture
-def api_client():
-    return APIClient()
+# # Will be used for making requests:
+# @pytest.fixture
+# def api_client():
+#     return APIClient()
 
-# Decorator ensures that the test runs within a Django database transaction and provides access to the database
-@pytest.mark.django_db
-def test_create_airline(api_client):
-    url = reverse('http://127.0.0.1:8000/api/airlines/')  # Replace 'flight-list' with the actual URL name of the view
-    # api client is for making requests to the view
-    response = api_client.get(url)
+# # Decorator ensures that the test runs within a Django database transaction and provides access to the database
+# @pytest.mark.django_db
+# def test_create_airline(api_client):
+#     url = reverse('http://127.0.0.1:8000/api/airlines/')  # Replace 'flight-list' with the actual URL name of the view
+#     # api client is for making requests to the view
+#     response = api_client.post(url)
 
-    assert response.status_code == status.HTTP_200_OK
+#     assert response.status_code == status.HTTP_200_OK

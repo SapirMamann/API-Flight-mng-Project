@@ -10,9 +10,9 @@ from ..logics.permission import user_permissions
 from ..models import Flight, Country, User
 
 
-class TicketsList(generics.GenericAPIView, 
+class TicketsList(
                   mixins.ListModelMixin, 
-                  mixins.CreateModelMixin):
+                  mixins.CreateModelMixin, generics.GenericAPIView):
     """
     Handles POST and GET requests
     """

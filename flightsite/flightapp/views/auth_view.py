@@ -29,6 +29,12 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     permission_classes = [permissions.AllowAny]
     serializer_class = CustomTokenObtainPairSerializer
 
+    # def post(self, request, *args, **kwargs):
+    #     print(f"Received POST request with data: {request.data}")
+    #     response = super().post(request, *args, **kwargs)
+    #     print(f"Response data: {response.data}")
+    #     return response
+
 
 
 class LogoutView(APIView):

@@ -28,7 +28,7 @@ def user_permissions(permission):
             if request.user.user_role and request.user.user_role.permissions.filter(codename=permission).exists():
 
                 # print(request.user) #admin
-                # print(request.user.user_role) #Administrator
+                print(request.user.user_role) #Administrator
                 # print(request.user.user_role.permissions.filter(codename='can_view_countries').exists()) #auth.Permission.None
 
                 return view_function(request, *args, **kwargs)

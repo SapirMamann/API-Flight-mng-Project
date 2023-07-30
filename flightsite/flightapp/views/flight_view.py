@@ -9,6 +9,8 @@ from ..serializers.flight import FlightSerializer
 from ..logics.flight import FlightLogic
 from ..logics.permission import user_permissions
 from ..models import Flight, Country, User
+from .ticket_view import TicketsList
+import requests
 
 
 class FlightsList(generics.GenericAPIView, 
@@ -90,22 +92,39 @@ class FlightDetail(generics.GenericAPIView,
     
 
 
-class BookFlight(APIView):
-    def get(self, request, flight_id):
-        # print(flight_id)
-    #   flight_no = request.data.get('flight_no')
-    #   user_id = request.data.get('user_id')
+# class BookFlight(APIView):
+#     def get(self, request, flight_id):
+#         """
+#         Create a new ticket for a user that booked a flight.
+#         """
+#         # Check if flight exists by its id
+#         flight = get_object_or_404(Flight, id=flight_id)
+#         print(flight) #str
+#         print(flight_id) #id
+#         # print(request.user)
+#         # print(request.user.id)
+
+#         #Get user details
+#         user = get_object_or_404(User, id=request.user.id)
+#         print(user)
+#         # create a ticket instance
+#         data = {
+#             'flight_no': flight_id,
+#             'user': request.user.id
+#         }
+#         # response = TicketsList.post(self, request, data=data)
+#         # response = TicketsList.post(self, request, 'flight_no: flight_id')
+#         # response = self.create(request, data)
+#         # r = requests.post('http://127.0.0.1:8000/api/tickets/', params=data)
 
 
-        # # check if flight exists by id
-        flight = get_object_or_404(Flight, id=flight_id)
-        print(flight) #str
-        print(flight_id) #id
-        print(request.user)
 
-        # #bring user details
-        user = get_object_or_404(User, id=request.user)
-        return Response(status=200)
+#         # print(r)
+#         # tickets_list_view = TicketsList.as_view()  # Create an instance of TicketsList view
+#         # print(tickets_list_view(request, *args, **kwargs))  # Call the post method of TicketsList view
+#         # response = tickets_list_view(request, *args, **kwargs)  # Call the post method of TicketsList view
+
+#         return Response(status=200)
 
         # # check if there are enough tickets in this flight
         # if flight.remaining_tickets <= 0:
