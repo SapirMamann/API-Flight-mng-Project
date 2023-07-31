@@ -45,7 +45,7 @@ urlpatterns = [
     path('flights/', FlightsList.as_view(), name='flights-list'),
     path('flights/<int:pk>/', FlightDetail.as_view(), name='flight-detail'),
     path('get_flights/<str:country>/', FlightsByCountry.as_view(), name='flight-by-country'),
-    path('flights/<int:flight_id>/book/', BookFlight.as_view(), name='book-flight'),
+    # path('flights/<int:flight_id>/book/', BookFlight.as_view(), name='book-flight'),
     path('searchflights/', SearchFlight.as_view(), name='search_flight'),
     
     # tickets

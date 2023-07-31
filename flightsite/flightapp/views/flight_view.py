@@ -10,7 +10,6 @@ from ..logics.flight import FlightLogic
 from ..logics.permission import user_permissions
 from ..models import Flight, Country, User
 from .ticket_view import TicketsList
-import requests
 
 
 class FlightsList(generics.GenericAPIView, 
