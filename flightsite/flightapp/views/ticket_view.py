@@ -25,8 +25,8 @@ class TicketsList(
         """
         Add ticket. 
         """
-        data = request.data.copy()
-        self.logic.create_ticket_with_flight_update(data)
+        # print(request.data)
+        self.logic.create_ticket_with_flight_update(request.data)
         return self.create(request, *args, **kwargs)
 
 

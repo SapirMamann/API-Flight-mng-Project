@@ -32,7 +32,7 @@ class UsersList(generics.GenericAPIView,
         return self.create(request, *args, **kwargs)
     
 
-    @method_decorator(user_permissions('can_view_all_users'))
+    # @method_decorator(user_permissions('can_view_all_users'))
     def get(self, request, *args, **kwargs):
         """
         List of all users.
@@ -71,6 +71,8 @@ class UserDetail(generics.GenericAPIView,
         Override get_object() to allow for retrieving the user by either
         pk or username.
         """
+
+        # replace to logic>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         queryset = self.get_queryset()
         # Try to get the user by pk
         obj = queryset.filter(pk=self.kwargs.get(self.lookup_field)).first()
@@ -111,31 +113,80 @@ class GetCurrentUserDetails(APIView):
         # data instead of getting the object
 
         # Get user object
+        print(request.user.id)
         try:
-            user = User.filter(id=request.user.id).first()
-            print(request.user.id)
+            print("try",request.user)
+            user = User.objects.get(id=request.user.id)
+            print("user", user)
             if user:
+                print("if",request.user)
                 return Response({
                     'username': user.username,
-                    'isAdmin': user.is_admin,
+                    # 'isAdmin': user.is_admin,
                 })
             # else:
             #     return Response({
             #         'error': 'User not found'
             #     }, status=404)
         except Exception as e:
+            print("got except")
             return Response({
                 'error': str(e)+'User not found'
             }, status=404)
         
         
-def get_username(request):
-    print(request.user)
-    print(request.user.is_authenticated)
-    # Check if the user is authenticated
-    if request.user:
-        username = request.user.username
-        return JsonResponse({'username': username})
-    else:
-        # If the user is not authenticated, return an error or an empty response
-        return JsonResponse({'error': 'User not authenticated'}, status=401)
+# class GetUsername(APIView):
+#     def get(self, request, *args, **kwargs):
+#         print(request.user)
+#         print("try",request.user)
+
+#         return Response({
+#             'username': request.user.username,
+#             # 'isAdmin': user.is_admin,
+#         })
+#         try: 
+#             user = User.objects.get(id=request.user.id)
+#             print("user", user)
+#             if user:
+#                 print("if",request.user)
+#         except Exception as e:
+#             print("got except")
+#             return Response({
+#                 'error': str(e)+'User not found'
+#             }, status=404)
+
+    # print(request.user)
+    # print(request.user.is_authenticated)
+    # # Check if the user is authenticated
+    # if request.user != 'AnonymousUser':
+    #     print('in if', request.user)
+    #     print('in if', request.headers)
+    #     username = request.user.username
+    #     # >>>>>>>>>>>>>>>>>>>>>>>>>>> change
+    #     return JsonResponse({'username': 2})
+    # else:
+    #     # If the user is not authenticated, return an error or an empty response
+    #     # return JsonResponse({'username': 'sa'})
+
+    #     # ?>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>return 401
+    #     print('in else')
+    #     return JsonResponse({'error': 'User not authenticated'}, status=401)
+        
+
+# def get_username(request):
+#     print(request.user)
+#     print(request.user.is_authenticated)
+#     # Check if the user is authenticated
+#     if request.user != 'AnonymousUser':
+#         print('in if', request.user)
+#         print('in if', request.headers)
+#         username = request.user.username
+#         # >>>>>>>>>>>>>>>>>>>>>>>>>>> change
+#         return JsonResponse({'username': 2})
+#     else:
+#         # If the user is not authenticated, return an error or an empty response
+#         # return JsonResponse({'username': 'sa'})
+
+#         # ?>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>return 401
+#         print('in else')
+#         return JsonResponse({'error': 'User not authenticated'}, status=401)

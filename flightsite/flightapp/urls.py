@@ -26,7 +26,8 @@ urlpatterns = [
     path('users/<int:pk>/', UserDetail.as_view(), name='user-detail'),
 
     path('users/get_current_user_details/', GetCurrentUserDetails.as_view(), name='get-current-user-details'),
-    path('users/get_username/', get_username, name='get-username'),
+    # path('users/get_username/', GetUsername.as_view(), name='get-current-user-details'),
+    # path('users/get_username/', get_username, name='get-username'),
 
     # groupes
     path('groups/', GroupListCreate.as_view(), name='group-list-create'),

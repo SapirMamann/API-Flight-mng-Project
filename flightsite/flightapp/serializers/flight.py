@@ -28,6 +28,7 @@ class FlightSerializer(serializers.ModelSerializer):
 
     def validate_departure_time(self, value):
         landing_time_str = self.initial_data.get('landing_time', None)
+        print(landing_time_str)
         if landing_time_str is not None:
             landing_time = dateutil.parser.parse(landing_time_str)
             # make value and landing_time timezone-aware with UTC

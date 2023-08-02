@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import Group, Permission, AbstractUser
+from django.contrib.auth.models import Group, AbstractUser, PermissionsMixin
 
 
 class Country(models.Model):
@@ -16,7 +16,7 @@ class UserGroup(Group):
 
 
 
-class User(AbstractUser):
+class User(AbstractUser, PermissionsMixin):
     username = models.CharField(max_length=50, unique=True)
     password = models.TextField(max_length=250)
     email = models.EmailField(max_length=30, unique=True)

@@ -9,3 +9,8 @@ class UserLogic():
         Get all users
         """
         return self.dal.get_all() 
+
+
+
+    def retrieve_by_username(self):
+        pass

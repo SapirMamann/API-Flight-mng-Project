@@ -74,7 +74,7 @@ class FlightDetail(generics.GenericAPIView,
         return self.retrieve(request, *args, **kwargs)
 
 
-    @method_decorator(user_permissions('change_flight'))
+    # @method_decorator(user_permissions('change_flight'))
     def put(self, request, *args, **kwargs ):
         """
         Updating a specific flight.
@@ -91,30 +91,30 @@ class FlightDetail(generics.GenericAPIView,
     
 
 
-class BookFlight(APIView):
-    def get(self, request, flight_id):
-        """
-        Create a new ticket for a user that booked a flight.
-        """
-        # Check if flight exists by its id
-        flight = get_object_or_404(Flight, id=flight_id)
-        print(flight) #str
-        print(flight_id) #id
-        # print(request.user)
-        # print(request.user.id)
+# class BookFlight(APIView):
+#     def get(self, request, flight_id):
+#         """
+#         Create a new ticket for a user that booked a flight.
+#         """
+#         # Check if flight exists by its id
+#         flight = get_object_or_404(Flight, id=flight_id)
+#         print(flight) #str
+#         print(flight_id) #id
+#         # print(request.user)
+#         # print(request.user.id)
 
-        #Get user details
-        user = get_object_or_404(User, id=request.user.id)
-        print(user)
-        # create a ticket instance
-        data = {
-            'flight_no': flight_id,
-            'user': request.user.id
-        }
-        # response = TicketsList.post(self, request, data=data)
-        # response = TicketsList.post(self, request, 'flight_no: flight_id')
-        # response = self.create(request, data)
-        # r = requests.post('http://127.0.0.1:8000/api/tickets/', params=data)
+#         #Get user details
+#         user = get_object_or_404(User, id=request.user.id)
+#         print(user)
+#         # create a ticket instance
+#         data = {
+#             'flight_no': flight_id,
+#             'user': request.user.id
+#         }
+#         # response = TicketsList.post(self, request, data=data)
+#         # response = TicketsList.post(self, request, 'flight_no: flight_id')
+#         # response = self.create(request, data)
+#         # r = requests.post('http://127.0.0.1:8000/api/tickets/', params=data)
 
 
 
