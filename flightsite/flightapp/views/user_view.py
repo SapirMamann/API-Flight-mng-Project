@@ -135,25 +135,28 @@ class GetCurrentUserDetails(APIView):
             }, status=404)
         
         
-# class GetUsername(APIView):
-#     def get(self, request, *args, **kwargs):
-#         print(request.user)
-#         print("try",request.user)
-
-#         return Response({
-#             'username': request.user.username,
-#             # 'isAdmin': user.is_admin,
-#         })
-#         try: 
-#             user = User.objects.get(id=request.user.id)
-#             print("user", user)
-#             if user:
-#                 print("if",request.user)
-#         except Exception as e:
-#             print("got except")
-#             return Response({
-#                 'error': str(e)+'User not found'
-#             }, status=404)
+class GetUsername(APIView):
+    def get(self, request, *args, **kwargs):
+        # print(request.user)
+        # print("try",request.user)
+        if request.user.is_authenticated:
+            print("authenticated",request.user)
+        else:
+            print("not authenticated",request.user)
+        return Response({
+            'username': request.user.username,
+            # 'isAdmin': user.is_admin,
+        })
+        # try: 
+        #     user = User.objects.get(id=request.user.id)
+        #     print("user", user)
+        #     if user:
+        #         print("if",request.user)
+        # except Exception as e:
+        #     print("got except")
+        #     return Response({
+        #         'error': str(e)+'User not found'
+        #     }, status=404)
 
     # print(request.user)
     # print(request.user.is_authenticated)
@@ -182,7 +185,7 @@ class GetCurrentUserDetails(APIView):
 #         print('in if', request.headers)
 #         username = request.user.username
 #         # >>>>>>>>>>>>>>>>>>>>>>>>>>> change
-#         return JsonResponse({'username': 2})
+#         return JsonResponse({'username': username})
 #     else:
 #         # If the user is not authenticated, return an error or an empty response
 #         # return JsonResponse({'username': 'sa'})

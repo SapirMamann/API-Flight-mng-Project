@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import Group, AbstractUser, PermissionsMixin
+from django.contrib.auth.models import Group, User, PermissionsMixin
 
 
 class Country(models.Model):
@@ -16,14 +16,14 @@ class UserGroup(Group):
 
 
 
-class User(AbstractUser, PermissionsMixin):
-    username = models.CharField(max_length=50, unique=True)
-    password = models.TextField(max_length=250)
-    email = models.EmailField(max_length=30, unique=True)
-    user_role = models.ForeignKey(UserGroup, on_delete=models.CASCADE, default=None, related_name='user_role')
+# class User(AbstractUser, PermissionsMixin):
+#     username = models.CharField(max_length=50, unique=True)
+#     password = models.TextField(max_length=250)
+#     email = models.EmailField(max_length=30, unique=True)
+#     user_role = models.ForeignKey(UserGroup, on_delete=models.CASCADE, default=None, related_name='user_role')
 
-    def __str__(self):
-        return self.username
+#     def __str__(self):
+#         return self.username
 
 
 

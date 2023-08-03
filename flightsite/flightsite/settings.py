@@ -136,14 +136,13 @@ WSGI_APPLICATION = 'flightsite.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'flights_db3',
+    'default':
+      {'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'flight_4',
         'USER': 'root',
         'PASSWORD': 'admin1234',
         'HOST': 'localhost',
-        'PORT': '3306',
-    }
+        'PORT': '3306',}
 }
 
 
@@ -188,5 +187,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'flightapp.User'      #use our custom user model (that inherits from AbstractUser) instead of the default one.
+# AUTH_USER_MODEL = 'flightapp.User'      #use our custom user model (that inherits from AbstractUser) instead of the default one.
 
