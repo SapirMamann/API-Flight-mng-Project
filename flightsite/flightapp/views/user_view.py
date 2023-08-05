@@ -11,7 +11,6 @@ from ..models import User
 from rest_framework.permissions import IsAuthenticated
 
 
-
 class UsersList(generics.GenericAPIView,
                 mixins.CreateModelMixin, 
                 mixins.ListModelMixin):
@@ -103,37 +102,27 @@ class UserDetail(generics.GenericAPIView,
 
 
 
-
 class GetCurrentUserDetails(APIView):
     # permission_classes = (IsAuthenticated, )
     # im using this view because if i would have used the get user by id mixin view, i would have problem with the permissions
     
     def get(self, request, *args, **kwargs):
-        # TODO: Try wit 'request.user' to get all of the user 
-        # data instead of getting the object
-
-        # Get user object
         print(request.user.id)
+
         try:
-            print("try",request.user)
             user = User.objects.get(id=request.user.id)
-            print("user", user)
+            serializer = UserSerializer(user)
             if user:
                 print("if",request.user)
-                return Response({
-                    'username': user.username,
-                    # 'isAdmin': user.is_admin,
-                })
-            # else:
-            #     return Response({
-            #         'error': 'User not found'
-            #     }, status=404)
+                print(user)
+                return Response(serializer.data)
         except Exception as e:
-            print("got except")
+            print("exception in get current user details view", e)
             return Response({
                 'error': str(e)+'User not found'
             }, status=404)
         
+
         
 class GetUsername(APIView):
     def get(self, request, *args, **kwargs):
