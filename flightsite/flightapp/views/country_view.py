@@ -21,6 +21,7 @@ class CountriesList(generics.GenericAPIView,
         """
         Add country. 
         """
+        print(request.user)
         return self.create(request, *args, **kwargs)
 
 

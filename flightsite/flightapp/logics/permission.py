@@ -25,14 +25,13 @@ def user_permissions(permission):
     def decorator(view_function):
         def wrapper(request, *args, **kwargs):
             # Check if a user has a group and the required permission
-            if request.user.user_role and request.user.user_role.permissions.filter(codename=permission).exists():
-
-                # print(request.user) #admin
-                print(request.user.user_role) #Administrator
-                # print(request.user.user_role.permissions.filter(codename='can_view_countries').exists()) #auth.Permission.None
-
+            if request.user and request.user.has_perm(permission):
+                print(request.user.groups.all())  #<QuerySet [<Group: Administrator>]>
+                print(request.user.user_permissions.all())  #<QuerySet [<Group: Administrator>]>
+                print(permission)
+                print(request.user.has_perm(permission))
+                print(request.user)
                 return view_function(request, *args, **kwargs)
-            
             else:       #User does not have the required permission -> return status 403, with message
                 return Response({'error': "You don't have the permission to visit this page"}, status=status.HTTP_403_FORBIDDEN)
         return wrapper

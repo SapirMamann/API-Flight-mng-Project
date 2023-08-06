@@ -10,9 +10,9 @@ class Country(models.Model):
 
 
 
-class UserGroup(Group):
-    class Meta:
-        proxy = True        #UserGroup doesn't create a new database table, but instead creates a new Python class that represents Group.
+# class UserGroup(Group):
+#     class Meta:
+#         proxy = True        #UserGroup doesn't create a new database table, but instead creates a new Python class that represents Group.
 
 
 
@@ -34,6 +34,16 @@ class Customer(models.Model):
     address = models.CharField(max_length=30)
     phone = models.CharField(max_length=30, unique=True)
     credit_card = models.CharField(max_length=30)
+    
+    #user is assigned to the group only when the instance is being created
+    def save(self, *args, **kwargs):
+        created = not bool(self.pk)
+        super().save(*args, **kwargs)
+        
+        if created:
+            # assign model to a group
+            group = Group.objects.get(name='Customer')
+            self.user.groups.add(group)
 
     def __str__(self):
         return self.first_name
@@ -45,6 +55,16 @@ class Administrator(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
 
+    #user is assigned to the group only when the instance is being created
+    def save(self, *args, **kwargs):
+        created = not bool(self.pk)
+        super().save(*args, **kwargs)
+        
+        if created:
+            # assign model to a group
+            group = Group.objects.get(name='Administrator')
+            self.user.groups.add(group)
+
     def __str__(self) -> str:
         return f'{self.first_name} {self.last_name}'
     
@@ -54,6 +74,16 @@ class AirlineCompany(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
+
+    #user is assigned to the group only when the instance is being created
+    def save(self, *args, **kwargs):
+        created = not bool(self.pk)
+        super().save(*args, **kwargs)
+        
+        if created:
+            # assign model to a group
+            group = Group.objects.get(name='Airline company')
+            self.user.groups.add(group)
 
     def __str__(self):
         return self.name

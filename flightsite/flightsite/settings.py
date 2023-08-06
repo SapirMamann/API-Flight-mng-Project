@@ -84,7 +84,7 @@ SIMPLE_JWT = {
     "JTI_CLAIM": "jti",
 
     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=25),
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 
     "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
@@ -136,13 +136,14 @@ WSGI_APPLICATION = 'flightsite.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default':
-      {'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'flight_4',
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'flights_5',
         'USER': 'root',
         'PASSWORD': 'admin1234',
         'HOST': 'localhost',
-        'PORT': '3306',}
+        'PORT': '3306',
+    }
 }
 
 
