@@ -8,7 +8,6 @@ from django.contrib.auth.models import Group, User
 from django.contrib.auth import authenticate
 
 
-
 class RegisterSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True)
     email = serializers.EmailField(
@@ -27,6 +26,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields didn't match."})
+        print(attrs)
         return attrs
     
     
@@ -46,12 +46,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
 
-        # Get the group based on the provided name
-        # group = Group.objects.get(name='Customer')
-
-        # Assign the user to the groups
-        # user.groups.add(1)
-
         # Assign the user to the group
         try:
             group = Group.objects.get(name=group_name)
@@ -63,8 +57,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             print("Group does not exist")
             return Response({"error": "Group does not exist"}, status=400)
     
-    
-
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):

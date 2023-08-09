@@ -25,8 +25,12 @@ class GroupListCreate(generics.GenericAPIView,
         return self.create(request, *args, **kwargs)
     
 
-    @method_decorator(user_permissions('view_group'))
+    # @method_decorator(user_permissions('view_group'))
     def get(self, request, *args, **kwargs):
+        """
+        Getting all groups.
+        This view is allow any.
+        """
         return self.list(request, *args, **kwargs)
     
 

@@ -21,21 +21,6 @@ class RegisterView(generics.CreateAPIView):
     logic = UserLogic()
     queryset = logic.get_all()
     serializer_class = RegisterSerializer
-    
-    # def perform_create(self, serializer):
-    #     # user = serializer.save()
-    #     print(serializer)
-
-    #     # group_names = serializer.validated_data.get('groups', [])  # Get the group names from the serializer data
-
-    #     # # Assign a group to the user here
-    #     # groups = [Group.objects.get_or_create(name=group_name)[0] for group_name in group_names]
-    #     # user.groups.set(groups)
-
-    #     # Return the user data with a success message
-    #     data = serializer.data
-    #     data['message'] = 'User registered successfully.'
-    #     return Response(data, status=status.HTTP_201_CREATED)
 
 
 
