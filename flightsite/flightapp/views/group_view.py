@@ -23,6 +23,7 @@ class GroupListCreate(generics.GenericAPIView,
     @method_decorator(user_permissions('add_group'))
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+    
 
     @method_decorator(user_permissions('view_group'))
     def get(self, request, *args, **kwargs):

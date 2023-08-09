@@ -22,7 +22,7 @@ class FlightsList(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = FlightSerializer
 
-    @method_decorator(user_permissions('add_flight'))
+    # @method_decorator(user_permissions('add_flight'))
     def post(self, request, *args, **kwargs):
         """
         Create a new flight. 

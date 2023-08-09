@@ -17,29 +17,53 @@ class RegisterSerializer(serializers.ModelSerializer):
             )
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
-    # user_role = serializers.CharField(write_only=True, required=True)
+    groups = serializers.CharField(required=True)
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2', 'email')
+        fields = ('username', 'password', 'password2', 'email', 'groups')
 
-    
-    def validate_password(self, attrs):
+
+    def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields didn't match."})
-
         return attrs
     
+    
     def create(self, validated_data):
+        # Extract the groups from validated_data. If the key 'groups' is present, the value will be removed from the dictionary and assigned to the variable group_names. If the key is not present, it will default to an empty list [].
+        print(validated_data)
+        group_name = validated_data['groups']
+        print(group_name)
+
+        # Create the user
         user = User.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
         )
 
-        #Set user's password
+        # Set user's password
         user.set_password(validated_data['password'])
         user.save()
-        return user            
+
+        # Get the group based on the provided name
+        # group = Group.objects.get(name='Customer')
+
+        # Assign the user to the groups
+        # user.groups.add(1)
+
+        # Assign the user to the group
+        try:
+            group = Group.objects.get(name=group_name)
+            group.user_set.add(user)
+            print(user)
+            print(user.get_all_permissions())
+            return user    
+        except Group.DoesNotExist:
+            print("Group does not exist")
+            return Response({"error": "Group does not exist"}, status=400)
+    
+    
 
 
 

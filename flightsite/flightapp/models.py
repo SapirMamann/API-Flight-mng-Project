@@ -10,23 +10,6 @@ class Country(models.Model):
 
 
 
-# class UserGroup(Group):
-#     class Meta:
-#         proxy = True        #UserGroup doesn't create a new database table, but instead creates a new Python class that represents Group.
-
-
-
-# class User(AbstractUser, PermissionsMixin):
-#     username = models.CharField(max_length=50, unique=True)
-#     password = models.TextField(max_length=250)
-#     email = models.EmailField(max_length=30, unique=True)
-#     user_role = models.ForeignKey(UserGroup, on_delete=models.CASCADE, default=None, related_name='user_role')
-
-#     def __str__(self):
-#         return self.username
-
-
-
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30)
@@ -92,11 +75,11 @@ class AirlineCompany(models.Model):
 
 class Flight(models.Model):
     airline_company = models.ForeignKey(AirlineCompany, 
-                                        on_delete=models.CASCADE, default='unknown')
+        on_delete=models.CASCADE, default='unknown')
     origin_country = models.ForeignKey(Country, related_name='departures', 
-                                       on_delete=models.CASCADE, default='unknown')
+        on_delete=models.CASCADE, default='unknown')
     destination_country = models.ForeignKey(Country, related_name='arrivals', 
-                                            on_delete=models.CASCADE, default='unknown')
+        on_delete=models.CASCADE, default='unknown')
     departure_time = models.DateTimeField()
     landing_time = models.DateTimeField()
     remaining_tickets = models.IntegerField()
