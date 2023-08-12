@@ -3,6 +3,7 @@ from django.utils.decorators import method_decorator
 from rest_framework import mixins, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
 
 from ..logics.ticket import TicketLogic
 from ..serializers.ticket import TicketSerializer
@@ -74,3 +75,21 @@ class TicketDetail(generics.GenericAPIView,
         return self.destroy(request, *args, **kwargs)
 
 
+
+
+class TicketsByUserID(APIView):
+    """
+    For getting tickets based on the logged in user.
+    """
+    # permission_classes = is_authenticated
+    logics = TicketLogic()
+    serializer_class = TicketSerializer
+
+    def get(self, request, pk):
+        user_tickets = self.logics.get_by_user(pk)
+        if user_tickets:
+            serializer = TicketSerializer(user_tickets, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "No tickets found for this user."},
+                            status=status.HTTP_200_OK)

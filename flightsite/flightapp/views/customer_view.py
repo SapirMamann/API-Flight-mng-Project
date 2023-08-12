@@ -16,10 +16,11 @@ class CustomersList(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = CustomerSerializer
 
-    @method_decorator(user_permissions('add_customer'))
+    # @method_decorator(user_permissions('add_customer'))
     def post(self, request, *args, **kwargs):
         """
         Create a customer. 
+        Permission is allowed any.
         """
         return self.create(request, *args, **kwargs)
 

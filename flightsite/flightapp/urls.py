@@ -52,6 +52,7 @@ urlpatterns = [
     # tickets
     path('tickets/', TicketsList.as_view(), name='tickets-list'),
     path('tickets/<int:pk>/', TicketDetail.as_view(), name='ticket-detail'),
+    path('my_tickets/<int:pk>/', TicketsByUserID.as_view(), name='ticket-by-user-id'),
 
     # customers
     path('customers/', CustomersList.as_view(), name='customers-list'),

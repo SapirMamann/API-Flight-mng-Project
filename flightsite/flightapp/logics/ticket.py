@@ -17,9 +17,9 @@ class TicketLogic():
         return self.dal.get_all() 
 
 
-    def get_by_customer(self, user_id):
-        pass
-    #get all tickets of a specific customer
+    def get_by_user(self, user_id):
+        #get all tickets of a specific user
+        return self.dal.get_by_user(user_id)
     
     
     def create_ticket_with_flight_update(self, data):
