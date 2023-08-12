@@ -20,7 +20,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2', 'email', 'groups')
+        fields = ('id','username', 'password', 'password2', 'email', 'groups')
 
 
     def validate(self, attrs):
@@ -36,11 +36,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         group_name = validated_data['groups']
         print(group_name)
 
-        # Create the user
-        user = User.objects.create(
-            username=validated_data['username'],
-            email=validated_data['email'],
-        )
+        try:
+            # Create the user
+            user = User.objects.create(
+                username=validated_data['username'],
+                email=validated_data['email'],
+            )
+        except Exception as e:
+            error_message = f"An error occurred when creating user: {e}"
+            # logging.error(error_message)
+            raise serializers.ValidationError(error_message)
 
         # Set user's password
         user.set_password(validated_data['password'])
@@ -56,7 +61,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         except Group.DoesNotExist:
             print("Group does not exist")
             return Response({"error": "Group does not exist"}, status=400)
-    
+        except Exception as e:
+            error_message = f"An error occurred: {e}"
+            # logging.error(error_message)
+            raise serializers.ValidationError(error_message)
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
