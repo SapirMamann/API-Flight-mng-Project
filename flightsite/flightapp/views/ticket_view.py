@@ -21,12 +21,14 @@ class TicketsList(
     queryset = logic.get_all()
     serializer_class = TicketSerializer
 
-    @method_decorator(user_permissions('add_ticket'))
+    @method_decorator(user_permissions('flightapp.add_ticket'))
     def post(self, request, *args, **kwargs):
         """
         Add ticket. 
+        Is used for booking flight.
         """
-        # print(request.data)
+        print(request.data)
+        print("user", request.user.get_group_permissions())
         self.logic.create_ticket_with_flight_update(request.data)
         return self.create(request, *args, **kwargs)
 

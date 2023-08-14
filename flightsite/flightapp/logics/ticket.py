@@ -30,7 +30,7 @@ class TicketLogic():
         
         # logger
         flight = get_object_or_404(Flight, id=data['flight_no'])
-        # print(flight)
+        print(flight)
         # print("this", flight.remaining_tickets)
         
         if flight.remaining_tickets <= 0:

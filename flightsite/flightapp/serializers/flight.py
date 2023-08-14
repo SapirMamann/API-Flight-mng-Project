@@ -8,10 +8,12 @@ from .country import CountrySerializer
 from datetime import datetime, timezone
 
 class FlightSerializer(serializers.ModelSerializer):
+    # TODO: add validation of origin country differenr from destination country
+    # add catch errors(when date is illigal)
     # In order to get the name field of a foreign key and not the pk. 
-    airline_company = serializers.SlugRelatedField(slug_field="name", read_only=True)
-    origin_country = serializers.SlugRelatedField(slug_field="name", read_only=True)
-    destination_country = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    # airline_company = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    # origin_country = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    # destination_country = serializers.SlugRelatedField(slug_field="name", read_only=True)
 
     class Meta:
         model = Flight

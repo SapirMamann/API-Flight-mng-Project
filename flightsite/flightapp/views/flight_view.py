@@ -27,6 +27,7 @@ class FlightsList(generics.GenericAPIView,
         """
         Create a new flight. 
         """
+        print(request.data)
         return self.create(request, *args, **kwargs)
 
 
