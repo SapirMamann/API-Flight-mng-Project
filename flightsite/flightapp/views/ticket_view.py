@@ -88,10 +88,14 @@ class TicketsByUserID(APIView):
     serializer_class = TicketSerializer
 
     def get(self, request, pk):
-        user_tickets = self.logics.get_by_user(pk)
-        if user_tickets:
-            serializer = TicketSerializer(user_tickets, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response({"message": "No tickets found for this user."},
-                            status=status.HTTP_200_OK)
+        print(request.user, "request.user in TicketsByUserID")
+        print(request.user.is_authenticated, "request.user in TicketsByUserID")
+        # //maybe should be try except because i want to let admin search tickets by user id
+        if request.user:
+            user_tickets = self.logics.get_by_user(pk)
+            if user_tickets:
+                serializer = TicketSerializer(user_tickets, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"message": "No tickets found for this user."},
+                                status=status.HTTP_200_OK)
