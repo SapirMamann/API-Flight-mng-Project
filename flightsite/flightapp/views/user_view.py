@@ -21,7 +21,7 @@ class UsersList(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = UserSerializer
     
-    @method_decorator(user_permissions('add_user'))
+    @method_decorator(user_permissions('auth.add_user'))
     def post(self, request, *args, **kwargs):
         """
         maybe i dont need this because im using auth register
@@ -37,9 +37,9 @@ class UsersList(generics.GenericAPIView,
         List of all users.
         """
         # print(f"User permissions: {request.user.get_all_permissions()}")
-        # print(f"User permissions: {request.user.has_perm('flightapp.view_user')}")
+        # print(f"User permissions: {request.user.has_perm('auth.view_user')}")
 
-        # if request.user.has_perm('flightapp.view_user') is False:
+        # if request.user.has_perm('auth.view_user') is False:
         #     return Response('okkkkkk', status=403)
 
         return self.list(request, *args, **kwargs)
@@ -80,6 +80,7 @@ class UserDetail(generics.GenericAPIView,
         if obj is not None:
             return obj
         # If user not found by pk, try to get it by username
+        # i dont think it works because i set the url as int
         obj = queryset.filter(username=self.kwargs.get(self.lookup_field)).first()
         if obj is not None:
             return obj

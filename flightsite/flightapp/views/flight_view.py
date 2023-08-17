@@ -22,7 +22,7 @@ class FlightsList(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = FlightSerializer
 
-    # @method_decorator(user_permissions('add_flight'))
+    @method_decorator(user_permissions('flightapp.add_flight'))
     def post(self, request, *args, **kwargs):
         """
         Create a new flight. 
@@ -67,15 +67,16 @@ class FlightDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = FlightSerializer
 
-    # @method_decorator(user_permissions('view_flight'))
+    # @method_decorator(user_permissions('flightapp.view_flight'))
     def get(self, request, *args, **kwargs):
         """
         Getting a specific flight.
+        maybe permission allow any
         """
         return self.retrieve(request, *args, **kwargs)
 
 
-    # @method_decorator(user_permissions('change_flight'))
+    @method_decorator(user_permissions('flightapp.change_flight'))
     def put(self, request, *args, **kwargs ):
         """
         Updating a specific flight.
@@ -83,7 +84,7 @@ class FlightDetail(generics.GenericAPIView,
         return self.update(request, *args, **kwargs)
 
 
-    @method_decorator(user_permissions('delete_flight'))
+    @method_decorator(user_permissions('flightapp.delete_flight'))
     def delete(self, request, *args, **kwargs):
         """
         Delete a specific flight.

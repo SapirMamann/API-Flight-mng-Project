@@ -20,16 +20,16 @@ class GroupListCreate(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = GroupSerializer
 
-    @method_decorator(user_permissions('add_group'))
+    @method_decorator(user_permissions('auth.add_group'))
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
     
 
-    # @method_decorator(user_permissions('view_group'))
+    # @method_decorator(user_permissions('auth.view_group'))
     def get(self, request, *args, **kwargs):
         """
         Getting all groups.
-        This view is allow any.
+        This view permission is allow any.
         """
         return self.list(request, *args, **kwargs)
     
@@ -46,7 +46,7 @@ class GroupDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = GroupSerializer
 
-    @method_decorator(user_permissions('view_group'))
+    @method_decorator(user_permissions('auth.view_group'))
     def get(self, request, *args, **kwargs):
         """
         Getting a specific group.
@@ -54,7 +54,7 @@ class GroupDetail(generics.GenericAPIView,
         return self.retrieve(request, *args, **kwargs)
 
 
-    @method_decorator(user_permissions('change_group'))
+    @method_decorator(user_permissions('auth.change_group'))
     def put(self, request, *args, **kwargs):
         """
         Updating a specific group.
@@ -62,7 +62,7 @@ class GroupDetail(generics.GenericAPIView,
         return self.update(request, *args, **kwargs)
     
 
-    @method_decorator(user_permissions('delete_group'))
+    @method_decorator(user_permissions('auth.delete_group'))
     def delete(self, request, *args, **kwargs):
         """
         Delete a specific group.

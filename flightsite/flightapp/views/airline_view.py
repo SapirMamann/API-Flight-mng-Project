@@ -16,7 +16,7 @@ class AirlinesList(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = AirlineCompanySerializer    
 
-    @method_decorator(user_permissions('add_airlinecompany'))
+    @method_decorator(user_permissions('flightapp.add_airlinecompany'))
     def post(self, request, *args, **kwargs):
         """
         Create a new airline company.
@@ -24,7 +24,7 @@ class AirlinesList(generics.GenericAPIView,
         return self.create(request, *args, **kwargs)
 
 
-    @method_decorator(user_permissions('view_airlinecompany'))
+    @method_decorator(user_permissions('flightapp.view_airlinecompany'))
     def get(self, request, *args, **kwargs):    
         """
         List of all Airline companies (displays only names).
@@ -44,7 +44,7 @@ class AirlineDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = AirlineCompanySerializer
 
-    @method_decorator(user_permissions('view_airlinecompany'))
+    @method_decorator(user_permissions('flightapp.view_airlinecompany'))
     def get(self, request, *args, **kwargs):
         """
         Getting a specific airline
@@ -52,7 +52,7 @@ class AirlineDetail(generics.GenericAPIView,
         return self.retrieve(request, *args, **kwargs)
 
 
-    @method_decorator(user_permissions('change_airlinecompany'))
+    @method_decorator(user_permissions('flightapp.change_airlinecompany'))
     def put(self, request, *args, **kwargs):
         """
         Updating a specific airline
@@ -60,7 +60,7 @@ class AirlineDetail(generics.GenericAPIView,
         return self.partial_update(request, *args, **kwargs)
 
 
-    @method_decorator(user_permissions('delete_airlinecompany'))
+    @method_decorator(user_permissions('flightapp.delete_airlinecompany'))
     def delete(self, request, *args, **kwargs):
         """
         Delete a specific airline

@@ -33,7 +33,7 @@ class TicketsList(
         return self.create(request, *args, **kwargs)
 
 
-    @method_decorator(user_permissions('view_ticket'))
+    @method_decorator(user_permissions('flightapp.view_ticket'))
     def get(self, request, *args, **kwargs):
         """
         List of all tickets.
@@ -53,7 +53,7 @@ class TicketDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = TicketSerializer
 
-    @method_decorator(user_permissions('view_ticket'))
+    @method_decorator(user_permissions('flightapp.view_ticket'))
     def get(self, request, *args, **kwargs):
         """
         Getting a specific ticket.
@@ -61,7 +61,7 @@ class TicketDetail(generics.GenericAPIView,
         return self.retrieve(request, *args, **kwargs)
 
 
-    @method_decorator(user_permissions('change_ticket'))
+    @method_decorator(user_permissions('flightapp.change_ticket'))
     def put(self, request, *args, **kwargs):
         """
         Updating a specific ticket.
@@ -69,7 +69,7 @@ class TicketDetail(generics.GenericAPIView,
         return self.update(request, *args, **kwargs)
     
 
-    @method_decorator(user_permissions('delete_ticket'))
+    @method_decorator(user_permissions('flightapp.delete_ticket'))
     def delete(self, request, *args, **kwargs):
         """
         Delete a specific ticket.

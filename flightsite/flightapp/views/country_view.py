@@ -16,7 +16,7 @@ class CountriesList(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = CountrySerializer
 
-    @method_decorator(user_permissions('add_country'))
+    @method_decorator(user_permissions('flightapp.add_country'))
     def post(self, request, *args, **kwargs):
         """
         Add country. 
@@ -45,7 +45,7 @@ class CountryDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = CountrySerializer
 
-    @method_decorator(user_permissions('view_country'))
+    @method_decorator(user_permissions('flightapp.view_country'))
     def get(self, request, *args, **kwargs):
         """
         Getting a specific country.
@@ -53,7 +53,7 @@ class CountryDetail(generics.GenericAPIView,
         return self.retrieve(request, *args, **kwargs)
 
 
-    @method_decorator(user_permissions('change_country'))
+    @method_decorator(user_permissions('flightapp.change_country'))
     def put(self, request, *args, **kwargs):
         """
         Updating a specific country.
@@ -62,7 +62,7 @@ class CountryDetail(generics.GenericAPIView,
         return self.update(request, *args, **kwargs)
     
 
-    @method_decorator(user_permissions('delete_country'))
+    @method_decorator(user_permissions('flightapp.delete_country'))
     def delete(self, request, *args, **kwargs):
         """
         Delete a specific country.

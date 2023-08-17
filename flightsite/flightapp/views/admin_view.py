@@ -20,7 +20,7 @@ class AdminsList(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = AdminSerializer
     
-    @method_decorator(user_permissions('add_administrator'))
+    @method_decorator(user_permissions('flightapp.add_administrator'))
     def post(self, request, *args, **kwargs):
         """
         Create a new admin.
@@ -58,7 +58,7 @@ class AdminDetail(generics.GenericAPIView,
         return self.retrieve(request, *args, **kwargs)
 
 
-    @method_decorator(user_permissions('change_administrator'))
+    @method_decorator(user_permissions('flightapp.change_administrator'))
     def put(self, request, *args, **kwargs):
         """
         Updating a specific admin.
@@ -66,7 +66,7 @@ class AdminDetail(generics.GenericAPIView,
         return self.update(request, *args, **kwargs)
     
 
-    @method_decorator(user_permissions('delete_administrator'))
+    @method_decorator(user_permissions('flightapp.delete_administrator'))
     def delete(self, request, *args, **kwargs):
         """
         Delete a specific admin.

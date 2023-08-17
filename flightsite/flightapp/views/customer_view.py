@@ -29,7 +29,7 @@ class CustomersList(generics.GenericAPIView,
         return self.create(request, *args, **kwargs)
 
 
-    @method_decorator(user_permissions('view_customer'))
+    @method_decorator(user_permissions('flightapp.view_customer'))
     def get(self, request, *args, **kwargs):
         """
         List of all customers.
@@ -89,7 +89,7 @@ class CustomerDetail(generics.GenericAPIView,
         return self.update(request, *args, **kwargs)
     
 
-    @method_decorator(user_permissions('delete_customer'))
+    @method_decorator(user_permissions('flightapp.delete_customer'))
     def delete(self, request, *args, **kwargs):
         """
         Delete a specific customer.
