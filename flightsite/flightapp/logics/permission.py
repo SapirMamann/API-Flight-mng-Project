@@ -29,10 +29,12 @@ def user_permissions(permission):
                 print(request.user.groups.all())  
                 print(request.user.user_permissions.all())
                 print(permission)
-                print(request.user.has_perm(permission))
                 print(request.user)
                 return view_function(request, *args, **kwargs)
             else:       #User does not have the required permission -> return status 403, with message
+                print(request.user.has_perm(permission))
+                print("user", request.user.get_group_permissions())
+
                 return Response({'error': "You don't have permission to do this action"}, status=status.HTTP_403_FORBIDDEN)
         return wrapper
     return decorator

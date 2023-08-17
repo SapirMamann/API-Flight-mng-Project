@@ -57,11 +57,12 @@ class UserDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = UserSerializer
     
-    @method_decorator(user_permissions('view_user'))
+    @method_decorator(user_permissions('auth.view_user'))
     def get(self, request, *args, **kwargs):
         """
         Getting a specific user.
-        """
+        """        
+        print("user", request.user.get_group_permissions())
         return self.retrieve(request, *args, **kwargs)
 
     
@@ -70,6 +71,7 @@ class UserDetail(generics.GenericAPIView,
         Override get_object() to allow for retrieving the user by either
         pk or username.
         """
+        print("in get object")
 
         # replace to logic>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         queryset = self.get_queryset()
@@ -84,6 +86,7 @@ class UserDetail(generics.GenericAPIView,
         # If user not found by either pk or username, raise a 404 error
         else:
             return Response({'error': 'User not found'}, status=404)
+
 
     @method_decorator(user_permissions('change_user'))
     def put(self, request, *args, **kwargs):
@@ -105,7 +108,7 @@ class UserDetail(generics.GenericAPIView,
 class GetCurrentUserDetails(APIView):
     # permission_classes = (IsAuthenticated, )
     # im using this view because if i would have used the get user by id mixin view, i would have problem with the permissions
-    
+    # Used fpr setting the stored state
     def get(self, request, *args, **kwargs):
         print(request.user.id)
 

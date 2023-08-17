@@ -55,6 +55,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         try:
             group = Group.objects.get(name=group_name)
             group.user_set.add(user)
+            if group_name == 'Administrator':
+                user.is_staff = True
+                user.is_superuser = True
+                user.save()
+                
             print(user)
             print(user.get_all_permissions())
             return user    

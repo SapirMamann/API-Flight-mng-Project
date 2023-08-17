@@ -21,7 +21,19 @@ class AdminsList(generics.GenericAPIView,
         """
         Create a new admin.
         """
-        return self.create(request, *args, **kwargs)
+        # When user is created as an admin, make him a superuser
+
+        response = self.create(request, *args, **kwargs)
+        # print(response, "response")
+        # admin_instance = response.data
+        # print(response.data, "response data")
+        #  # Update the admin instance to be staff and superuser
+        # admin_instance.is_staff = True
+        # admin_instance.is_superuser = True
+        # admin_instance.save()
+        
+        return response
+    
 
 
     @method_decorator(user_permissions('view_administrator'))
