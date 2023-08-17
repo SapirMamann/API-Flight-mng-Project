@@ -1,4 +1,5 @@
 from rest_framework import serializers
+import re
 
 from ..models import Customer
 
@@ -12,6 +13,9 @@ class CustomerSerializer(serializers.ModelSerializer):
     def validate_first_name(self, first_name):
         if len(first_name) < 2 or len(first_name) > 100:
             raise serializers.ValidationError("name length must be between 3 to 99.")     
+        if not re.match(r'^[a-zA-Z \-]+$', first_name):
+            raise serializers.ValidationError("Name must only contain alphabetic characters.")
+
         # First name cant contain bad words or spaces
         return first_name
     
@@ -19,6 +23,8 @@ class CustomerSerializer(serializers.ModelSerializer):
     def validate_last_name(self, last_name):
         if len(last_name) < 2 or len(last_name) > 100:
             raise serializers.ValidationError("name length must be between 3 to 99.")     
+        if not re.match(r'^[a-zA-Z \-]+$', last_name):
+            raise serializers.ValidationError("Last name must only contain alphabetic characters.")
         # First name cant contain bad words or spaces
         return last_name
     
@@ -26,6 +32,8 @@ class CustomerSerializer(serializers.ModelSerializer):
     def validate_address(self, address):
         if len(address) < 2 or len(address) > 100:
             raise serializers.ValidationError("address length must be between 3 to 99.")     
+        if not re.match(r'^[a-zA-Z \-]+$', address):
+            raise serializers.ValidationError("Address must only contain alphabetic characters.")
         # validate its not all numbers
         return address
 

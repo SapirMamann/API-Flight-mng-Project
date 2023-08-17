@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 class FlightSerializer(serializers.ModelSerializer):
     # TODO: add validation of origin country differenr from destination country
     # add catch errors(when date is illigal)
+    
     # In order to get the name field of a foreign key and not the pk. 
     # airline_company = serializers.SlugRelatedField(slug_field="name", read_only=True)
     # origin_country = serializers.SlugRelatedField(slug_field="name", read_only=True)
@@ -19,6 +20,9 @@ class FlightSerializer(serializers.ModelSerializer):
         model = Flight
         fields = '__all__'
 
+
+    # def validate(self, ):
+    # pass
 
     def validate_destination_country(self, destination_country):
         origin_country = self.initial_data.get('origin_country')
