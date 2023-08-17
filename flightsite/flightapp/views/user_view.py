@@ -88,7 +88,7 @@ class UserDetail(generics.GenericAPIView,
             return Response({'error': 'User not found'}, status=404)
 
 
-    @method_decorator(user_permissions('change_user'))
+    # @method_decorator(user_permissions('change_user'))
     def put(self, request, *args, **kwargs):
         """
         Updating a specific user.

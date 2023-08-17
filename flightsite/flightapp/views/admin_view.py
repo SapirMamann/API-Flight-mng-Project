@@ -1,5 +1,9 @@
 from rest_framework import mixins, generics
 from django.utils.decorators import method_decorator
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from ..models import Administrator
 
 from ..logics.admin import AdminLogic
 from ..serializers.admin import AdminSerializer
@@ -23,20 +27,10 @@ class AdminsList(generics.GenericAPIView,
         """
         # When user is created as an admin, make him a superuser
 
-        response = self.create(request, *args, **kwargs)
-        # print(response, "response")
-        # admin_instance = response.data
-        # print(response.data, "response data")
-        #  # Update the admin instance to be staff and superuser
-        # admin_instance.is_staff = True
-        # admin_instance.is_superuser = True
-        # admin_instance.save()
+        return self.create(request, *args, **kwargs)
         
-        return response
-    
 
-
-    @method_decorator(user_permissions('view_administrator'))
+    @method_decorator(user_permissions('flightapp.view_administrator'))
     def get(self, request, *args, **kwargs):
         """
         List of all admins.
@@ -56,7 +50,7 @@ class AdminDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = AdminSerializer
 
-    @method_decorator(user_permissions('view_administrator'))
+    @method_decorator(user_permissions('flightapp.view_administrator'))
     def get(self, request, *args, **kwargs):
         """
         Get a specific admin.
@@ -78,3 +72,30 @@ class AdminDetail(generics.GenericAPIView,
         Delete a specific admin.
         """
         return self.destroy(request, *args, **kwargs)
+    
+
+
+
+class GetAdminByUserID(APIView):
+    # permission_classes = (IsAuthenticated, )
+    # im using this view because if i would have used the get user by id mixin view, i would have problem with the permissions
+    
+    def get(self, request, *args, **kwargs):
+        print("here",request.user.id)
+        request_user_id = request.user.id
+        try:
+            user = User.objects.get(id=request_user_id)
+            print("user",user)
+            admin_instance = Administrator.objects.filter(user=user).first()
+            print("admin_instance", admin_instance)
+            serializer = AdminSerializer(admin_instance)
+            
+            if admin_instance:
+                print("if",request.user)
+                print(user)
+                return Response(serializer.data)
+        except Exception as e:
+            print("exception in getadminbyuserid view", e)
+            return Response({
+                'error': str(e)+'User not found'
+            }, status=404)

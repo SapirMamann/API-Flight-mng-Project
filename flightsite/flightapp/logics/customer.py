@@ -10,3 +10,8 @@ class CustomerLogic():
         """
         return self.dal.get_all() 
 
+    def get_customer_by_user_username(self, username):
+        """
+        Get customer by its user's username
+        """
+        return self.dal.get_customer_by_user_username(username)

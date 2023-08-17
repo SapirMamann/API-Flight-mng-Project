@@ -20,6 +20,7 @@ urlpatterns = [
     # admins
     path('admins/', AdminsList.as_view(), name='admins-list'),
     path('admins/<int:pk>/', AdminDetail.as_view(), name='admin-detail'),
+    path('admins/get_admin_by_user_id/', GetAdminByUserID.as_view(), name='get-admin-by-user-id'),
 
     # users
     path('users/', UsersList.as_view(), name='users-list'),
@@ -56,6 +57,7 @@ urlpatterns = [
     # customers
     path('customers/', CustomersList.as_view(), name='customers-list'),
     path('customers/<int:pk>/', CustomerDetail.as_view(), name='customer-detail'),
+    path('customers/get_customer_by_user_id/', GetCustomerByUserID.as_view(), name='get-customer-by-user-id'),
 ]
 
 # urlpatterns = format_suffix_patterns(urlpatterns)     #used for showing views at the browser

@@ -2,7 +2,9 @@ from rest_framework import mixins, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
+from django.contrib.auth.models import User
 
+from ..models import Customer
 from ..logics.customer import CustomerLogic
 from ..serializers.customer import CustomerSerializer
 from ..logics.permission import user_permissions
@@ -47,7 +49,7 @@ class CustomerDetail(generics.GenericAPIView,
     queryset = logic.get_all()
     serializer_class = CustomerSerializer
 
-    @method_decorator(user_permissions('flightapp.view_customer'))
+    # @method_decorator(user_permissions('flightapp.view_customer'))
     def get(self, request, *args, **kwargs):
         """
         Get a specific customer.
@@ -60,26 +62,26 @@ class CustomerDetail(generics.GenericAPIView,
     def get_object(self):
         """
         wondering if it could be a problem to provide this view to users. (maybe user has the same id? could this happen?)
-        Override get_object() to allow for retrieving the customer by user id.
+        Override get_object() to allow for retrieving the customer by user id. better as username
         """
-        print("in get object")
-
+        # replace to logic>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         # replace to logic>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         queryset = self.get_queryset()
         # Try to get the user by pk
         obj = queryset.filter(pk=self.kwargs.get(self.lookup_field)).first()
         if obj is not None:
             return obj
-        # If user not found by pk, try to get it by user id
-        obj = queryset.filter(user=self.kwargs.get(self.lookup_field)).first()
-        if obj is not None:
-            return obj
+        # # If user not found by pk, try to get it by user id
+        # obj = queryset.filter(user=self.kwargs.get(self.lookup_field)).first()
+        # if obj is not None:
+        #     return obj
         # If customer not found by either pk or userid, raise a 404 error
         else:
             return Response({'error': 'User not found'}, status=404)
 
 
-    @method_decorator(user_permissions('change_customer'))
+
+    @method_decorator(user_permissions('flightapp.change_customer'))
     def put(self, request, *args, **kwargs):
         """
         Updating a specific customer.
@@ -98,22 +100,26 @@ class CustomerDetail(generics.GenericAPIView,
 
 
 
-# class GetUserByCustomerID(APIView):
-#     # permission_classes = (IsAuthenticated, )
-#     # im using this view because if i would have used the get user by id mixin view, i would have problem with the permissions
+class GetCustomerByUserID(APIView):
+    # permission_classes = (IsAuthenticated, )
+    # im using this view because if i would have used the get user by id mixin view, i would have problem with the permissions
     
-#     def get(self, request, *args, **kwargs):
-#         print(request.user.id)
-
-#         try:
-#             user = User.objects.get(id=request.user.id)
-#             serializer = UserSerializer(user)
-#             if user:
-#                 print("if",request.user)
-#                 print(user)
-#                 return Response(serializer.data)
-#         except Exception as e:
-#             print("exception in get current user details view", e)
-#             return Response({
-#                 'error': str(e)+'User not found'
-#             }, status=404)
+    def get(self, request, *args, **kwargs):
+        print("here",request.user.id)
+        request_user_id = request.user.id
+        try:
+            user = User.objects.get(id=request_user_id)
+            print("user",user)
+            customer = Customer.objects.filter(user=user).first()
+            print("customer", customer)
+            serializer = CustomerSerializer(customer)
+            
+            if user:
+                print("if",request.user)
+                print(user)
+                return Response(serializer.data)
+        except Exception as e:
+            print("exception in get customer by user id view", e)
+            return Response({
+                'error': str(e)+'User not found'
+            }, status=404)
