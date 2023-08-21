@@ -21,7 +21,6 @@ class CountriesList(generics.GenericAPIView,
         """
         Add country. 
         """
-        # print("hi",request.user)
         return self.create(request, *args, **kwargs)
 
 
@@ -58,7 +57,6 @@ class CountryDetail(generics.GenericAPIView,
         """
         Updating a specific country.
         """
-        # print(request.headers)
         return self.update(request, *args, **kwargs)
     
 

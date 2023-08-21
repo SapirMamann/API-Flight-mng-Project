@@ -68,7 +68,6 @@ class AirlineDetail(generics.GenericAPIView,
         """
       
         airline_instance = self.get_object()
-        print(airline_instance)
         self.logic.delete_airline_with_user(airline_instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
     

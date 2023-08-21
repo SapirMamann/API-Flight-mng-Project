@@ -8,7 +8,6 @@ from rest_framework.permissions import AllowAny
 from ..logics.ticket import TicketLogic
 from ..serializers.ticket import TicketSerializer
 from ..logics.permission import user_permissions
-from ..models import Flight, Country, User
 
 
 class TicketsList(
@@ -75,7 +74,6 @@ class TicketDetail(generics.GenericAPIView,
         Delete a specific ticket.
         """
         return self.destroy(request, *args, **kwargs)
-
 
 
 

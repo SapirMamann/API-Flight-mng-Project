@@ -24,9 +24,8 @@ class AdminsList(generics.GenericAPIView,
     def post(self, request, *args, **kwargs):
         """
         Create a new admin.
+        Makes him a superuser
         """
-        # When user is created as an admin, make him a superuser
-
         return self.create(request, *args, **kwargs)
         
 
@@ -73,7 +72,6 @@ class AdminDetail(generics.GenericAPIView,
         """
         
         admin_instance = self.get_object()
-        print(admin_instance)
         self.logic.delete_admin_with_user(admin_instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
     

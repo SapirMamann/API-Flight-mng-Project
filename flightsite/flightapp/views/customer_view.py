@@ -65,7 +65,6 @@ class CustomerDetail(generics.GenericAPIView,
         Override get_object() to allow for retrieving the customer by user id. better as username
         """
         # replace to logic>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        # replace to logic>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         queryset = self.get_queryset()
         # Try to get the user by pk
         obj = queryset.filter(pk=self.kwargs.get(self.lookup_field)).first()
@@ -94,7 +93,6 @@ class CustomerDetail(generics.GenericAPIView,
         Delete a specific customer and associated user.
         """
         customer_instance = self.get_object()
-        print(customer_instance)
         self.logic.delete_customer_with_user(customer_instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
 

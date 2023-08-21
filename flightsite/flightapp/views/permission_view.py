@@ -18,5 +18,6 @@ class PermissionList(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         """
         List of all permissions.
+        This view is "allow any" permission.
         """
         return self.list(request, *args, **kwargs)
