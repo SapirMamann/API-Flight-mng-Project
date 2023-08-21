@@ -1,10 +1,13 @@
 from django.utils.decorators import method_decorator
+from django.shortcuts import get_object_or_404
 from rest_framework import mixins, generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from ..logics.airline import AirlineLogic
 from ..serializers.airline import AirlineCompanySerializer
 from ..logics.permission import user_permissions
+from ..models import AirlineCompany, User
 
 
 class AirlinesList(generics.GenericAPIView,
@@ -71,3 +74,28 @@ class AirlineDetail(generics.GenericAPIView,
         self.logic.delete_airline_with_user(airline_instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+
+
+class GetAirlineByUserID(APIView):
+    # permission_classes = (IsAuthenticated, )
+    # im using this view because if i would have used the get user by id mixin view, i would have problem with the permissions
+    
+    def get(self, request, *args, **kwargs):
+        print("here",request.user.id)
+        request_user_id = request.user.id
+        try:
+            user = User.objects.get(id=request_user_id)
+            print("user",user)
+            airline_instance = AirlineCompany.objects.filter(user=user).first()
+            print("admin_instance", airline_instance)
+            serializer = AirlineCompanySerializer(airline_instance)
+            
+            if airline_instance:
+                print("if",request.user)
+                print(user)
+                return Response(serializer.data)
+        except Exception as e:
+            print("exception in GetAirlineByUserID view", e)
+            return Response({
+                'error': str(e)+'User not found'
+            }, status=404)

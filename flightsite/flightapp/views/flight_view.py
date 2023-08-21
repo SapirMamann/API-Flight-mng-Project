@@ -3,12 +3,12 @@ from django.utils.decorators import method_decorator
 from rest_framework import mixins, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from ..serializers.flight import FlightSerializer 
 from ..logics.flight import FlightLogic
 from ..logics.permission import user_permissions
-from ..models import Flight, Country, User
+from ..models import Flight, Country, User, AirlineCompany
 from .ticket_view import TicketsList
 
 
@@ -37,22 +37,6 @@ class FlightsList(generics.GenericAPIView,
         List of all flights.
         """
         return self.list(request, *args, **kwargs)
-    
-
-
-class FlightsByCountry(APIView):
-    """
-    For displaying flights based on their origin_country.
-    """
-    permission_classes = [AllowAny]
-
-    def get(self, request, country):
-        country = get_object_or_404(Country, name=country)
-        country = country.id        #In order to use the filter method, i need to pass the country ID.
-
-        queryset = Flight.objects.all().filter(origin_country=country)
-        serializer = FlightSerializer(queryset, many=True)
-        return Response(serializer.data)
 
 
 
@@ -90,6 +74,22 @@ class FlightDetail(generics.GenericAPIView,
         Delete a specific flight.
         """
         return self.destroy(request, *args, **kwargs)
+
+
+
+class FlightsByCountry(APIView):
+    """
+    For displaying flights based on their origin_country.
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request, country):
+        country = get_object_or_404(Country, name=country)
+        country = country.id        #In order to use the filter method, i need to pass the country ID.
+
+        queryset = Flight.objects.all().filter(origin_country=country)
+        serializer = FlightSerializer(queryset, many=True)
+        return Response(serializer.data)
     
 
 
@@ -108,3 +108,21 @@ class SearchFlight(APIView):
 
         context = {'flights': serialized_flights}
         return Response({'flights': serialized_flights})
+
+
+
+class AirlineCompanyFlights(APIView):
+    """
+    For displaying flights of the logged-in airline company.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user_id = request.user.id
+        # Get the airline comapny object based on the requested user id
+        airline_company_instance = AirlineCompany.objects.get(user=user_id)
+        print(airline_company_instance)
+
+        queryset = Flight.objects.filter(airline_company=airline_company_instance)
+        serializer = FlightSerializer(queryset, many=True)
+        return Response(serializer.data)

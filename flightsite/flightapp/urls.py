@@ -42,12 +42,14 @@ urlpatterns = [
     # airlines
     path('airlines/', AirlinesList.as_view(), name='airlines-list'),
     path('airlines/<int:pk>/', AirlineDetail.as_view(), name='airline-detail'),
+    path('airlines/get_airline_by_user_id/', GetAirlineByUserID.as_view(), name='get-airline-by-user-id'),
     
     # flights
     path('flights/', FlightsList.as_view(), name='flights-list'),
     path('flights/<int:pk>/', FlightDetail.as_view(), name='flight-detail'),
     path('get_flights/<str:country>/', FlightsByCountry.as_view(), name='flight-by-country'),
-    path('searchflights/', SearchFlight.as_view(), name='search_flight'),
+    path('searchflights/', SearchFlight.as_view(), name='search-flight'),
+    path('airline_flights/', AirlineCompanyFlights.as_view(), name='airline-flights'),
     
     # tickets
     path('tickets/', TicketsList.as_view(), name='tickets-list'),
