@@ -10,12 +10,11 @@ class AdminLogic():
         """
         return self.dal.get_all()
 
+    def delete_admin_with_user(self, admin_instance):
+        user_instance = admin_instance.user
 
-    def get_by_username(self, airline_username):
-        """
-        Get airline by username
-        for login purposes,
-        by entering username we'll get the airline
-        """
-        pass
+        # Delete the admin instance
+        admin_instance.delete()
 
+        # Delete the user instance
+        user_instance.delete()

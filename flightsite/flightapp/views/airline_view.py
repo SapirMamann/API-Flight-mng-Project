@@ -1,5 +1,6 @@
-from rest_framework import mixins, generics
 from django.utils.decorators import method_decorator
+from rest_framework import mixins, generics, status
+from rest_framework.response import Response
 
 from ..logics.airline import AirlineLogic
 from ..serializers.airline import AirlineCompanySerializer
@@ -63,6 +64,11 @@ class AirlineDetail(generics.GenericAPIView,
     @method_decorator(user_permissions('flightapp.delete_airlinecompany'))
     def delete(self, request, *args, **kwargs):
         """
-        Delete a specific airline
+        Delete a specific airline and associated user.
         """
-        return self.destroy(request, *args, **kwargs)
+      
+        airline_instance = self.get_object()
+        print(airline_instance)
+        self.logic.delete_airline_with_user(airline_instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    

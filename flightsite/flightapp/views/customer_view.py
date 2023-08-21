@@ -1,4 +1,4 @@
-from rest_framework import mixins, generics
+from rest_framework import mixins, generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
@@ -80,7 +80,6 @@ class CustomerDetail(generics.GenericAPIView,
             return Response({'error': 'User not found'}, status=404)
 
 
-
     @method_decorator(user_permissions('flightapp.change_customer'))
     def put(self, request, *args, **kwargs):
         """
@@ -92,11 +91,12 @@ class CustomerDetail(generics.GenericAPIView,
     @method_decorator(user_permissions('flightapp.delete_customer'))
     def delete(self, request, *args, **kwargs):
         """
-        Delete a specific customer.
+        Delete a specific customer and associated user.
         """
-        return self.destroy(request, *args, **kwargs)
-    
-
+        customer_instance = self.get_object()
+        print(customer_instance)
+        self.logic.delete_customer_with_user(customer_instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 

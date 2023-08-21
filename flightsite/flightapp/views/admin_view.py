@@ -1,10 +1,10 @@
-from rest_framework import mixins, generics
 from django.utils.decorators import method_decorator
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from django.contrib.auth.models import User
-from ..models import Administrator
+from rest_framework import mixins, generics, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from ..models import Administrator
 from ..logics.admin import AdminLogic
 from ..serializers.admin import AdminSerializer
 from ..logics.permission import user_permissions
@@ -69,9 +69,13 @@ class AdminDetail(generics.GenericAPIView,
     @method_decorator(user_permissions('flightapp.delete_administrator'))
     def delete(self, request, *args, **kwargs):
         """
-        Delete a specific admin.
+        Delete a specific admin and associated user.
         """
-        return self.destroy(request, *args, **kwargs)
+        
+        admin_instance = self.get_object()
+        print(admin_instance)
+        self.logic.delete_admin_with_user(admin_instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
 
 
