@@ -94,6 +94,11 @@ class GetAirlineByUserID(APIView):
                 print("if",request.user)
                 print(user)
                 return Response(serializer.data)
+            else:
+                return Response({
+                'error': str(e)+'airline not found, maybe signed in as an admin'
+            }, status=404)
+
         except Exception as e:
             print("exception in GetAirlineByUserID view", e)
             return Response({
