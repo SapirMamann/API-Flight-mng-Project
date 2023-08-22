@@ -21,16 +21,25 @@ class FlightSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-    # def validate(self, ):
-    # pass
-
-    def validate_destination_country(self, destination_country):
-        origin_country = self.initial_data.get('origin_country')
-
-        if str(destination_country.id) == origin_country:
-            raise serializers.ValidationError('Destination country and origin country must be different.')
-        return destination_country
+    # Validate origin and destination country is not the same
+    def validate(self, attrs):
+        if attrs['destination_country'] == attrs['origin_country']:
+            raise serializers.ValidationError("Destination country and origin country must be different.")
+        print(attrs)
+        return attrs
     
+
+    def validate_origin_country(self, value):
+        if not value:
+            raise serializers.ValidationError("Origin country cannot be empty.")
+        return value
+
+
+    def validate_destination_country(self, value):
+        if not value:        
+            raise serializers.ValidationError("Destination country cannot be empty.")
+        return value
+
 
     def validate_departure_time(self, value):
         landing_time_str = self.initial_data.get('landing_time', None)
