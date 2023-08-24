@@ -57,7 +57,7 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=45),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=45),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=90),
     "ROTATE_REFRESH_TOKENS": True,      #if user stays logged in, refresh the token(with a new access token) automatically and dont log him out.
     "BLACKLIST_AFTER_ROTATION": True,      #the last token will be blacklisted so no one can use the old token again(it saves the old tokens in db blacklist table).

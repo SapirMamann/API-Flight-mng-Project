@@ -89,7 +89,8 @@ class TicketsByUserID(APIView):
         print(request.user, "request.user in TicketsByUserID")
         print(request.user.is_authenticated, "request.user in TicketsByUserID")
         # //maybe should be try except because i want to let admin search tickets by user id
-        if request.user:
+        # should be is authenticated
+        if request.user.is_authenticated:
             user_tickets = self.logics.get_by_user(pk)
             if user_tickets:
                 serializer = TicketSerializer(user_tickets, many=True)

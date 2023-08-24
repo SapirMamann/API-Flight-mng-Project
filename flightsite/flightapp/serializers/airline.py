@@ -1,11 +1,13 @@
 from rest_framework import serializers
 
 from ..models import AirlineCompany
-
+from .country import CountrySerializer
 
 class AirlineCompanySerializer(serializers.ModelSerializer):
     # Used to display the country name instead of the country id
     # country = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    country = CountrySerializer()
+
 
     class Meta:
         model = AirlineCompany

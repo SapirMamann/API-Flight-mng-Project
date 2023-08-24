@@ -1,20 +1,22 @@
 from rest_framework import serializers
 from django.utils import timezone
 import dateutil.parser
+from datetime import datetime, timezone
 
 from ..models import Flight
 from .country import CountrySerializer
-
-from datetime import datetime, timezone
+from .airline import AirlineCompanySerializer
+from .country import CountrySerializer
 
 class FlightSerializer(serializers.ModelSerializer):
     # TODO: add validation of origin country differenr from destination country
     # add catch errors(when date is illigal)
         # validation no past flights
-    # In order to get the name field of a foreign key and not the pk. 
-    # airline_company = serializers.SlugRelatedField(slug_field="name", read_only=True)
-    # origin_country = serializers.SlugRelatedField(slug_field="name", read_only=True)
-    # destination_country = serializers.SlugRelatedField(slug_field="name", read_only=True)
+        
+    airline_company = AirlineCompanySerializer()
+    origin_country = CountrySerializer()
+    destination_country = CountrySerializer()
+
 
     class Meta:
         model = Flight
