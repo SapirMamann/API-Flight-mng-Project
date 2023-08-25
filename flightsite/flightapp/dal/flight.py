@@ -11,6 +11,10 @@ class FlightDal(BaseDAL):
         return Flight.objects.all()
     
 
+    def get_by_id(self, id):
+        return Flight.objects.get(id=id)
+    
+    
     def get_by_params(self, origin_country):
         return Flight.objects.filter(origin_country=origin_country)
     

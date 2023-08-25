@@ -11,6 +11,12 @@ class FlightLogic():
         return self.dal.get_all() 
 
 
+    def get_flight_by_id(self, id):
+        """
+        Get a specific flight by id
+        """
+        return self.dal.get_by_id(id)
+
     def get_by_params(self, origin_country):
         return self.dal.get_by_params(origin_country)
     #needs to add destination and departure time

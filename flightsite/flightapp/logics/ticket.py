@@ -21,6 +21,13 @@ class TicketLogic():
         #get all tickets of a specific user
         return self.dal.get_by_user(user_id)
     
+
+    def get_by_id(self, id):
+        """
+        Get a specific ticket by id
+        """
+        return self.dal.get_by_id(id)
+    
     
     def create_ticket_with_flight_update(self, data):
         """

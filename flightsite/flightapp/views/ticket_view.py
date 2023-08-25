@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 
 from ..logics.ticket import TicketLogic
+from ..logics.flight import FlightLogic
 from ..serializers.ticket import TicketSerializer
 from ..logics.permission import user_permissions
 
@@ -73,6 +74,17 @@ class TicketDetail(generics.GenericAPIView,
         """
         Delete a specific ticket.
         """
+        # Add ticket amount by one on specific flight
+        # Get flight id from request
+        ticket = self.logic.get_by_id(kwargs['pk'])
+        flight_id = ticket.flight_no.id
+        # Get flight by id
+        flight_logic = FlightLogic()
+        flight = flight_logic.get_flight_by_id(flight_id)
+        # Add ticket amount by one
+        flight.remaining_tickets += 1
+        flight.save()
+
         return self.destroy(request, *args, **kwargs)
 
 
@@ -89,7 +101,6 @@ class TicketsByUserID(APIView):
         print(request.user, "request.user in TicketsByUserID")
         print(request.user.is_authenticated, "request.user in TicketsByUserID")
         # //maybe should be try except because i want to let admin search tickets by user id
-        # should be is authenticated
         if request.user.is_authenticated:
             user_tickets = self.logics.get_by_user(pk)
             if user_tickets:
