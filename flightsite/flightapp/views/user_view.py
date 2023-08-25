@@ -67,7 +67,6 @@ class UserDetail(generics.GenericAPIView,
         Override get_object() to allow for retrieving the user by either
         pk or username.
         """
-        print("in get object")
 
         # replace to logic>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         queryset = self.get_queryset()

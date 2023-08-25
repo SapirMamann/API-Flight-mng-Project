@@ -121,7 +121,7 @@ class SearchFlight(APIView):
 
                 # Filter flights within the specified day
                 queryset = queryset.filter(departure_time__range=(start_of_day, end_of_day))
-
+                print(queryset)
             # Serialize the filtered flights
             serializer = FlightSerializer(queryset, many=True)
             
