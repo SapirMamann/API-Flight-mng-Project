@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from ..logics.airline import AirlineLogic
 from ..serializers.airline import AirlineCompanySerializer
 from ..logics.permission import user_permissions
-from ..models import AirlineCompany, User
+from ..models import AirlineCompany, User, Country
 
 
 class AirlinesList(generics.GenericAPIView,
@@ -25,8 +25,8 @@ class AirlinesList(generics.GenericAPIView,
         """
         Create a new airline company.
         """
+        print("request.data",request.data)
         return self.create(request, *args, **kwargs)
-
 
     @method_decorator(user_permissions('flightapp.view_airlinecompany'))
     def get(self, request, *args, **kwargs):    

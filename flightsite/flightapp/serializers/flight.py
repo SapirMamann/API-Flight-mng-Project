@@ -13,9 +13,9 @@ class FlightSerializer(serializers.ModelSerializer):
     # add catch errors(when date is illigal)
         # validation no past flights
         
-    airline_company = AirlineCompanySerializer()
-    origin_country = CountrySerializer()
-    destination_country = CountrySerializer()
+    # airline_company = AirlineCompanySerializer()
+    # origin_country = CountrySerializer()
+    # destination_country = CountrySerializer()
 
 
     class Meta:

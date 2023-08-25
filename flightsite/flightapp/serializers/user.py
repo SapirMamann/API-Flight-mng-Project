@@ -18,4 +18,4 @@ class UserSerializer(serializers.ModelSerializer):
         
         return username
     
-    
+

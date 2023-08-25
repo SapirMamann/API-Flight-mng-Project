@@ -16,6 +16,7 @@ urlpatterns = [
     path('auth/refresh/', TokenRefreshView.as_view(), name ='auth_token_refresh'),      #name='token_refresh'
     path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/logout/', TokenBlacklistView.as_view(), name='logout'),
+    path('auth/password/change/', UpdatePassword.as_view(), name='password_change'),
 
     # admins
     path('admins/', AdminsList.as_view(), name='admins-list'),

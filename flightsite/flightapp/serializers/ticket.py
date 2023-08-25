@@ -4,7 +4,7 @@ from ..models import Ticket
 from .flight import FlightSerializer
 
 class TicketSerializer(serializers.ModelSerializer):
-    flight_no = FlightSerializer()
+    # flight_no = FlightSerializer()
 
 
     class Meta:

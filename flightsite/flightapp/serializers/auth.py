@@ -73,28 +73,30 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(error_message)
 
 
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     default_error_messages = {
         'no_active_account': ('email or password are incorrect!')
     }
 
-    # def validate(self, attrs):
-    #     email = attrs.get('email')
-    #     password = attrs.get('password')
 
-    #     user = authenticate(email=email, password=password)
 
-    #     if user:
-    #         if not user.is_active:
-    #             raise AuthenticationFailed(
-    #                 self.error_messages['no_active_account'],
-    #                 code='no_active_account',
-    #             )
-    #     else:
-    #         raise AuthenticationFailed(
-    #             self.error_messages['no_active_account'],
-    #             code='no_active_account',
-    #         )
+class ChangePasswordSerializer(serializers.Serializer):
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
 
-    #     data = super().validate(attrs)
-    #     return data
+    
+    def validate_new_password(self, value):
+        validate_password(value)
+        return value
+    
+    
+    def update(self, instance, validated_data):
+
+        instance.set_password(validated_data['password'])
+        instance.save()
+
+        return instance

@@ -1,9 +1,10 @@
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
-from rest_framework import mixins, generics
+from rest_framework import mixins, generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from datetime import datetime
 
 from ..serializers.flight import FlightSerializer 
 from ..logics.flight import FlightLogic
@@ -96,18 +97,46 @@ class FlightsByCountry(APIView):
 class SearchFlight(APIView):
     def get(self, request, *args, **kwargs):
         # Getting params from client(react)
-        origin_country = request.GET.get('origin_country')
+        # origin_country = request.GET.get('origin_country')
 
-        logic = FlightLogic()
-        flights = logic.get_by_params(origin_country)
+        # logic = FlightLogic()
+        # # flights = logic.get_by_params(origin_country)
         
-        serializer = FlightSerializer(flights, many=True)
-        serialized_flights = serializer.data
+        # serializer = FlightSerializer(flights, many=True)
+        # serialized_flights = serializer.data
 
-        print("ok", flights)
+        # print("ok", flights)
+        # context = {'flights': serialized_flights}
+        # return Response({'flights': serialized_flights})
+        try:
+            origin_country_id = request.GET.get("origin_country")
+            destination_country_id = request.GET.get("destination_country")
+            departure_time = request.GET.get("departure_time")
 
-        context = {'flights': serialized_flights}
-        return Response({'flights': serialized_flights})
+            # Create a base queryset for filtering flights
+            queryset = Flight.objects.all()
+            
+            # Apply filters based on query parameters
+            if origin_country_id:
+                queryset = queryset.filter(origin_country=origin_country_id)
+            
+            if destination_country_id:
+                queryset = queryset.filter(destination_country=destination_country_id)
+            
+            if departure_time:
+                print(departure_time, "d tmie")
+                # departure_time = datetime.strptime(departure_time, "%Y-%m-%dT%H:%M:%S%z")
+                formatted_date = datetime.fromisoformat(departure_time)
+
+                queryset = queryset.filter(departure_time=formatted_date)
+            
+            # Serialize the filtered flights
+            serializer = FlightSerializer(queryset, many=True)
+            
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

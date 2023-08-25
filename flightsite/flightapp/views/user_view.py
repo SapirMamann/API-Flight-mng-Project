@@ -1,14 +1,16 @@
 from rest_framework import mixins, generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
+from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import check_password
 
 from ..logics.user import UserLogic
 from ..serializers.user import UserSerializer
 from ..logics.permission import user_permissions
 from ..models import User
-from rest_framework.permissions import IsAuthenticated
 
 
 class UsersList(generics.GenericAPIView,
@@ -83,15 +85,30 @@ class UserDetail(generics.GenericAPIView,
             return Response({'error': 'User not found'}, status=404)
 
 
-    @method_decorator(user_permissions('change_user'))
+    @method_decorator(user_permissions('auth.change_user'))
     def put(self, request, *args, **kwargs):
         """
         Updating a specific user.
         """
         return self.update(request, *args, **kwargs)
+
+        # user = request.user.username
+        # print("user", user)
+        # password = request.data.get('password')
+        # print(password, "password")
+        # authenticated_user = authenticate(username=user, password=password)
+        # print("authenticated_user", authenticated_user)
+        # if authenticated_user is not None:
+        #     print("authenticated_user", authenticated_user)
+        #     authenticated_user.set_password(password)
+        #     authenticated_user.save()
+        #     return Response({'message': 'Profile updated successfully'}, status=200)
+
+        # else:
+        #     return Response({'error': 'Wrong password'}, status=401)
     
 
-    @method_decorator(user_permissions('delete_user'))
+    @method_decorator(user_permissions('auth.delete_user'))
     def delete(self, request, *args, **kwargs):
         """
         Delete a specific user.

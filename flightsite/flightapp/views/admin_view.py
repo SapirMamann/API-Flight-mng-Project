@@ -62,6 +62,7 @@ class AdminDetail(generics.GenericAPIView,
         """
         Updating a specific admin.
         """
+        print("request.data",request.data)
         return self.update(request, *args, **kwargs)
     
 
