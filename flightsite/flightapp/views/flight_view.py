@@ -96,18 +96,6 @@ class FlightsByCountry(APIView):
 
 class SearchFlight(APIView):
     def get(self, request, *args, **kwargs):
-        # Getting params from client(react)
-        # origin_country = request.GET.get('origin_country')
-
-        # logic = FlightLogic()
-        # # flights = logic.get_by_params(origin_country)
-        
-        # serializer = FlightSerializer(flights, many=True)
-        # serialized_flights = serializer.data
-
-        # print("ok", flights)
-        # context = {'flights': serialized_flights}
-        # return Response({'flights': serialized_flights})
         try:
             origin_country_id = request.GET.get("origin_country")
             destination_country_id = request.GET.get("destination_country")
@@ -124,12 +112,16 @@ class SearchFlight(APIView):
                 queryset = queryset.filter(destination_country=destination_country_id)
             
             if departure_time:
-                print(departure_time, "d tmie")
-                # departure_time = datetime.strptime(departure_time, "%Y-%m-%dT%H:%M:%S%z")
+                # Parse the departure_time string into a datetime object
                 formatted_date = datetime.fromisoformat(departure_time)
+                
+                # Calculate the start and end of the day for the given departure_time
+                start_of_day = formatted_date.replace(hour=0, minute=0, second=0)
+                end_of_day = formatted_date.replace(hour=23, minute=59, second=59)
 
-                queryset = queryset.filter(departure_time=formatted_date)
-            
+                # Filter flights within the specified day
+                queryset = queryset.filter(departure_time__range=(start_of_day, end_of_day))
+
             # Serialize the filtered flights
             serializer = FlightSerializer(queryset, many=True)
             
