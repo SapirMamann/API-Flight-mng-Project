@@ -4,7 +4,6 @@ from rest_framework import mixins, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..models import Administrator
 from ..logics.admin import AdminLogic
 from ..serializers.admin import AdminSerializer
 from ..logics.permission import user_permissions
@@ -80,25 +79,9 @@ class AdminDetail(generics.GenericAPIView,
 
 
 class GetAdminByUserID(APIView):
-    # permission_classes = (IsAuthenticated, )
-    # im using this view because if i would have used the get user by id mixin view, i would have problem with the permissions
-    
+    # Im using this view because if i would have used the get user by id mixin view, i would have problem with the permissions
+    logic = AdminLogic()
+
     def get(self, request, *args, **kwargs):
-        print("here",request.user.id)
         request_user_id = request.user.id
-        try:
-            user = User.objects.get(id=request_user_id)
-            print("user",user)
-            admin_instance = Administrator.objects.filter(user=user).first()
-            print("admin_instance", admin_instance)
-            serializer = AdminSerializer(admin_instance)
-            
-            if admin_instance:
-                print("if",request.user)
-                print(user)
-                return Response(serializer.data)
-        except Exception as e:
-            print("exception in getadminbyuserid view", e)
-            return Response({
-                'error': str(e)+'User not found'
-            }, status=404)
+        return self.logic.get_admin_by_user_id(request_user_id)

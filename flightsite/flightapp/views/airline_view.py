@@ -69,7 +69,6 @@ class AirlineDetail(generics.GenericAPIView,
         """
         Delete a specific airline and associated user.
         """
-      
         airline_instance = self.get_object()
         self.logic.delete_airline_with_user(airline_instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -79,28 +78,9 @@ class AirlineDetail(generics.GenericAPIView,
 class GetAirlineByUserID(APIView):
     # permission_classes = (IsAuthenticated, )
     # im using this view because if i would have used the get user by id mixin view, i would have problem with the permissions
+    logic = AirlineLogic()
     
     def get(self, request, *args, **kwargs):
-        print("here",request.user.id)
         request_user_id = request.user.id
-        try:
-            user = User.objects.get(id=request_user_id)
-            print("user",user)
-            airline_instance = AirlineCompany.objects.filter(user=user).first()
-            print("admin_instance", airline_instance)
-            serializer = AirlineCompanySerializer(airline_instance)
-            
-            if airline_instance:
-                print("if",request.user)
-                print(user)
-                return Response(serializer.data)
-            else:
-                return Response({
-                'error': str(e)+'airline not found, maybe signed in as an admin'
-            }, status=404)
+        return self.logic.get_by_user_id(request_user_id)
 
-        except Exception as e:
-            print("exception in GetAirlineByUserID view", e)
-            return Response({
-                'error': str(e)+'User not found'
-            }, status=404)

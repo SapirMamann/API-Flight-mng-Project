@@ -9,3 +9,7 @@ class UserDal(BaseDAL):
 
     def get_all(self):
         return User.objects.all()
+    
+    
+    def get_by_id(self, id):
+        return User.objects.get(id=id) 

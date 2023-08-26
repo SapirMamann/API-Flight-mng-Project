@@ -10,3 +10,6 @@ class AirlineDal(BaseDAL):
     def get_all(self):
         return AirlineCompany.objects.all()
     
+
+    def get_by_user_field(self, user):
+        return AirlineCompany.objects.filter(user=user).first()
