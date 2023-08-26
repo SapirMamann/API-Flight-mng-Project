@@ -117,24 +117,18 @@ class UserDetail(generics.GenericAPIView,
 
 
 class GetCurrentUserDetails(APIView):
+    logic = UserLogic()
     # permission_classes = (IsAuthenticated, )
     # im using this view because if i would have used the get user by id mixin view, i would have problem with the permissions
-    # Used fpr setting the stored state
+    # Used for setting the stored state
     def get(self, request, *args, **kwargs):
-        print(request.user.id)
-
-        try:
-            user = User.objects.get(id=request.user.id)
-            serializer = UserSerializer(user)
-            if user:
-                print("if",request.user)
-                print(user)
-                return Response(serializer.data)
-        except Exception as e:
-            print("exception in get current user details view", e)
-            return Response({
-                'error': str(e)+'User not found'
-            }, status=404)
+        request_user_id = request.user.id
+        response = self.logic.get_by_id(request_user_id)
+        if response is not None:
+            # print(response, "response of get current user details view")
+            return Response(response, status=200)
+        else:
+            return Response({'error': 'User not found'}, status=404)
         
 
         

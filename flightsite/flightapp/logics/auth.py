@@ -6,7 +6,6 @@ from ..serializers.auth import ChangePasswordSerializer
 
 
 class AuthLogic():
-
     def change_password(self, object, data):
         """
         Change password by providing the object and passwords
