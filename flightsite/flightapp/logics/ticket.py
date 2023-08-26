@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from ..dal.ticket import TicketDal
 from ..dal.flight import FlightDal
 from ..models import Flight
-
+from .flight import FlightLogic
 
 class TicketLogic():
     dal = TicketDal()
@@ -54,3 +54,24 @@ class TicketLogic():
                         status=status.HTTP_201_CREATED)
         # log this after: <<<<<<<<<<
         # print("after",flight.remaining_tickets)
+
+
+    def delete_ticket_with_flight_update(self, ticket_id):
+        """
+        Delete a ticket and update the flight remaining tickets by one
+        """
+        try:
+            # Get ticket by id
+            ticket = self.dal.get_by_id(ticket_id)
+            # Get flight id from ticket
+            flight_id = ticket.flight_no.id
+
+            # Get flight by id
+            flight_logic = FlightLogic()
+            flight_instance = flight_logic.get_flight_by_id(flight_id)
+
+            # Add ticket amount by one
+            flight_instance.remaining_tickets += 1
+            flight_instance.save()      
+        except Exception as e:
+            print("An error occurred:", e)

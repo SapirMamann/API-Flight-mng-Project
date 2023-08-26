@@ -12,12 +12,13 @@ class TicketDal(BaseDAL):
     
 
     def get_by_id(self, id):
-        return Ticket.objects.get(id=id)
+        try:
+            return Ticket.objects.get(id=id)
+        except Ticket.DoesNotExist:
+            return None
     
 
     def get_by_user(self, user_id):
         # user_id=40
         return Ticket.objects.filter(user=user_id)
     
-
-
