@@ -3,7 +3,7 @@ from django.utils.decorators import method_decorator
 from rest_framework import mixins, generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from ..logics.ticket import TicketLogic
 from ..logics.flight import FlightLogic
@@ -85,19 +85,14 @@ class TicketsByUserID(APIView):
     """
     For getting tickets based on the logged in user.
     """
-    # permission_classes = is_authenticated
+    permission_classes = [IsAuthenticated]
     logics = TicketLogic()
     serializer_class = TicketSerializer
 
     def get(self, request, pk):
-        print(request.user, "request.user in TicketsByUserID")
-        print(request.user.is_authenticated, "request.user in TicketsByUserID")
-        # //maybe should be try except because i want to let admin search tickets by user id
-        if request.user.is_authenticated:
-            user_tickets = self.logics.get_by_user(pk)
-            if user_tickets:
-                serializer = TicketSerializer(user_tickets, many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response({"message": "No tickets found for this user."},
-                                status=status.HTTP_200_OK)
+        response = self.logics.get_by_user(pk)
+        if response is None:
+            return Response({"detail": "No tickets found for the user."}, status=status.HTTP_404_NOT_FOUND)
+        # print(response, "response")
+        return Response(response, status=status.HTTP_200_OK)
+    

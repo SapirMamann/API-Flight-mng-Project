@@ -6,6 +6,8 @@ from ..dal.ticket import TicketDal
 from ..dal.flight import FlightDal
 from ..models import Flight
 from .flight import FlightLogic
+from ..serializers.ticket import TicketSerializer
+
 
 class TicketLogic():
     dal = TicketDal()
@@ -19,8 +21,13 @@ class TicketLogic():
 
     def get_by_user(self, user_id):
         #get all tickets of a specific user
-        return self.dal.get_by_user(user_id)
-    
+        user_tickets = self.dal.get_by_user(user_id)
+        if user_tickets:
+            serializer = TicketSerializer(user_tickets, many=True)
+            return serializer.data
+        else:
+            return None
+        
 
     def get_by_id(self, id):
         """

@@ -18,7 +18,6 @@ class TicketDal(BaseDAL):
             return None
     
 
-    def get_by_user(self, user_id):
-        # user_id=40
+    def get_by_user(self, user_id):  
         return Ticket.objects.filter(user=user_id)
     
