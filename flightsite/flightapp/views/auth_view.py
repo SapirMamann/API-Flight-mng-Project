@@ -13,6 +13,7 @@ from ..serializers.user import UserSerializer
 from ..logics.user import UserLogic
 from ..logics.auth import AuthLogic
 
+
 class RegisterView(generics.CreateAPIView):
     """
     Creating a new user, has a built-in hashed password
@@ -56,7 +57,6 @@ class UpdatePassword(APIView):
 
 
     def put(self, request, *args, **kwargs):
-        # self.object = self.get_object()
         object = self.get_object()
         data = request.data
         response = self.logic.change_password(object, data)

@@ -101,23 +101,28 @@ class CustomerDetail(generics.GenericAPIView,
 class GetCustomerByUserID(APIView):
     # permission_classes = (IsAuthenticated, )
     # im using this view because if i would have used the get user by id mixin view, i would have problem with the permissions
-    
+    logic = CustomerLogic()
+
     def get(self, request, *args, **kwargs):
-        print("here",request.user.id)
         request_user_id = request.user.id
-        try:
-            user = User.objects.get(id=request_user_id)
-            print("user",user)
-            customer = Customer.objects.filter(user=user).first()
-            print("customer", customer)
-            serializer = CustomerSerializer(customer)
+        return self.logic.get_by_user_id(request_user_id)
+
+
+        # print("here",request.user.id)
+        # request_user_id = request.user.id
+        # try:
+        #     user = User.objects.get(id=request_user_id)
+        #     print("user",user)
+        #     customer = Customer.objects.filter(user=user).first()
+        #     print("customer", customer)
+        #     serializer = CustomerSerializer(customer)
             
-            if user:
-                print("if",request.user)
-                print(user)
-                return Response(serializer.data)
-        except Exception as e:
-            print("exception in get customer by user id view", e)
-            return Response({
-                'error': str(e)+'User not found'
-            }, status=404)
+        #     if user:
+        #         print("if",request.user)
+        #         print(user)
+        #         return Response(serializer.data)
+        # except Exception as e:
+        #     print("exception in get customer by user id view", e)
+        #     return Response({
+        #         'error': str(e)+'User not found'
+        #     }, status=404)

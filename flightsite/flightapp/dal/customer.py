@@ -1,7 +1,9 @@
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+
 from .base import BaseDAL
 from ..models import Customer
-from django.contrib.auth.models import User
-from rest_framework.response import Response
+
 
 class CustomerDal(BaseDAL):
     def __init__(self): 
@@ -25,3 +27,18 @@ class CustomerDal(BaseDAL):
             #     return Response({'error': 'Customer not found'}, status=404)
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=404)
+        
+
+    
+    def get_by_user_field(self, user):
+        """
+        Get customer instance by user field
+        """
+        try:
+            customer_instance = Customer.objects.filter(user=user).first()
+            return customer_instance
+        except Customer.DoesNotExist:
+            return Response({'error': 'Customer not found'}, status=404)
+        
+        
+    
