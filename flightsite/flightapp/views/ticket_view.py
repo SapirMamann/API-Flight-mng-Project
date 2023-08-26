@@ -11,8 +11,7 @@ from ..serializers.ticket import TicketSerializer
 from ..logics.permission import user_permissions
 
 
-class TicketsList(
-                  mixins.ListModelMixin, 
+class TicketsList(mixins.ListModelMixin, 
                   mixins.CreateModelMixin, generics.GenericAPIView):
     """
     Handles POST and GET requests

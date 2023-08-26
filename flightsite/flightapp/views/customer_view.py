@@ -70,11 +70,7 @@ class CustomerDetail(generics.GenericAPIView,
         obj = queryset.filter(pk=self.kwargs.get(self.lookup_field)).first()
         if obj is not None:
             return obj
-        # # If user not found by pk, try to get it by user id
-        # obj = queryset.filter(user=self.kwargs.get(self.lookup_field)).first()
-        # if obj is not None:
-        #     return obj
-        # If customer not found by either pk or userid, raise a 404 error
+            
         else:
             return Response({'error': 'User not found'}, status=404)
 
@@ -107,22 +103,3 @@ class GetCustomerByUserID(APIView):
         request_user_id = request.user.id
         return self.logic.get_by_user_id(request_user_id)
 
-
-        # print("here",request.user.id)
-        # request_user_id = request.user.id
-        # try:
-        #     user = User.objects.get(id=request_user_id)
-        #     print("user",user)
-        #     customer = Customer.objects.filter(user=user).first()
-        #     print("customer", customer)
-        #     serializer = CustomerSerializer(customer)
-            
-        #     if user:
-        #         print("if",request.user)
-        #         print(user)
-        #         return Response(serializer.data)
-        # except Exception as e:
-        #     print("exception in get customer by user id view", e)
-        #     return Response({
-        #         'error': str(e)+'User not found'
-        #     }, status=404)
