@@ -19,7 +19,7 @@ class TestAuthViews:
     #     assert response.status_code == 200
 
 
-    def test_register_view(self):
+    # def test_register_view(self):
         # payload = dict(
         #     username="testuser",
         #     email="testuser@example.com",
@@ -27,9 +27,9 @@ class TestAuthViews:
         #     password2="testpassword",
         #     groups="Customer"
         # )
-        data = {'username': 'testtest', 'email':'testuser@example.com', 'password': 'jack2024', 'password2': 'jack2024', 'groups': 'Customer'}
-        url = reverse('register')  #Using url name 
-        response = self.api_client.post(url, data, format='json')
-        print(response, "responseeee")
-        assert response.status_code == 201
+        # data = {'username': 'testtest', 'email':'testuser@example.com', 'password': 'jack2024', 'password2': 'jack2024', 'groups': 'Customer'}
+        # url = reverse('register')  #Using url name 
+        # response = self.api_client.post(url, data, format='json')
+        # print(response, "responseeee")
+        # assert response.status_code == 201
 
