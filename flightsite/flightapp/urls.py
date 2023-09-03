@@ -12,7 +12,7 @@ urlpatterns = [
     path('permissions/', PermissionList.as_view(), name='permission-list'),
 
     # authentication
-    path('auth/login/', CustomTokenObtainPairView.as_view(), name ='auth_login'),     #name='token_obtain_pair'
+    path('auth/login/', CustomTokenObtainPairView.as_view(), name ='login'),     #name='token_obtain_pair'
     path('auth/refresh/', TokenRefreshView.as_view(), name ='auth_token_refresh'),      #name='token_refresh'
     path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/logout/', TokenBlacklistView.as_view(), name='logout'),

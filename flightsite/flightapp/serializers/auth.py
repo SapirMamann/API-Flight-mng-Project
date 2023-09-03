@@ -62,7 +62,7 @@ class RegisterSerializer(serializers.ModelSerializer):
                 user.save()
                 
             print(user)
-            print(user.get_all_permissions())
+            # print(user.get_all_permissions())
             return user    
         except Group.DoesNotExist:
             print("Group does not exist")
@@ -76,7 +76,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     default_error_messages = {
-        'no_active_account': ('email or password are incorrect!')
+        'no_active_account': ('username or password are incorrect!')
     }
 
 
